@@ -216,9 +216,10 @@ If this attribute is not present on a RADIUS Request received from a RADIUS Clie
 
 This section defines a new RADIUS attribute, Status-Realm-Response-Code (TBD). This is of type tlv, as defined in [RFC8044], section 3.13. It contains 3 sub-attributes:
 
-Response-Code (Type = 1)
-Hop-Count (Type = 2)
-Responding-Server (Type = 3)
+* Response-Code (Type = 1)
+* Hop-Count (Type = 2)
+* Responding-Server (Type = 3)
+
 Response-Code is of type 'integer', as defined in [RFC8044], Section 3.1. Exactly one Response-Code sub-attribute MUST be included in in every Status-Realm-Response-Code attribute. It will contain one of the following values:
 
 ~~~~
@@ -267,7 +268,8 @@ The following sub-attributes may be included in the value field of a Server-Info
 - Server-Identifier (Type = 2)
 - Hop-Count (Type = 3)
 - Time-Delta (Type = 4)
-- The Server-Operator is of type 'string'. It is the analogue of the Operator-Name, as defined in [RFC5580].
+
+The Server-Operator is of type 'string'. It is the analogue of the Operator-Name, as defined in [RFC5580].
 
 The Server-Identifier in an analogue of the NAS-Identifier defined in [RFC2865]. It indicates the name of this particular proxy server. This field is used to identify which server processed the Request, among those operated by the organization indicated in the Server-Operator sub-attribute.
 
@@ -407,7 +409,7 @@ RADIUS Clients implementing Status-Realm-Request MUST NOT increment [RFC4668] or
 If an implementation supports Status-Realm-Request and the [RFC4668] or [RFC4670] MIB modules, then it SHOULD also support vendor-specific MIB extensions dedicated solely to tracking Status-Realm requests and responses. Any definition of the RADIUS Client MIB modules for Status-Realm-Requests is outside of the scope of this document.
 
 
-15. Table of Attributes
+# Table of Attributes
 
 The following table provides a guide to which attributes may be found in Status-Realm-Request and Status-Realm-Response packets, and in what quantity. Attributes other than the ones listed below SHOULD NOT be found in a Status-Realm-Request packet.
 
