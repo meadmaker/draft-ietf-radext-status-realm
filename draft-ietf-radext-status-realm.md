@@ -409,7 +409,7 @@ RADIUS Clients implementing Status-Realm-Request MUST NOT increment [RFC4668] or
 If an implementation supports Status-Realm-Request and the [RFC4668] or [RFC4670] MIB modules, then it SHOULD also support vendor-specific MIB extensions dedicated solely to tracking Status-Realm requests and responses. Any definition of the RADIUS Client MIB modules for Status-Realm-Requests is outside of the scope of this document.
 
 
-# Table of Attributes
+# Status-Realm Attributes
 
 The following table provides a guide to which attributes may be found in Status-Realm-Request and Status-Realm-Response packets, and in what quantity. Attributes other than the ones listed below SHOULD NOT be found in a Status-Realm-Request packet.
 
