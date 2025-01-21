@@ -2,7 +2,7 @@
 
 
 
-RADEXT                                                         M. Cullen
+RADIUS EXTensions                                              M. Cullen
 Internet-Draft                                         Painless Security
 Intended status: Standards Track                                A. DeKok
 Expires: 25 July 2025                                         FreeRADIUS
@@ -15,7 +15,7 @@ Expires: 25 July 2025                                         FreeRADIUS
 
   Status-Realm and Loop Prevention for the Remote Dial-In User Service
                                 (RADIUS)
-                  draft-todo-yourname-protocol-latest
+                 draft-ietf-radext-status-realm-latest
 
 Abstract
 
@@ -31,13 +31,14 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-todo-yourname-
-   protocol/.
+   https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-
+   ietf-radext-status-realm.html.  Status information for this document
+   may be found at https://datatracker.ietf.org/doc/draft-ietf-radext-
+   status-realm/.
 
-   Discussion of this document takes place on the SEC Working Group
+   Discussion of this document takes place on the RADIUS EXTensions
    mailing list (mailto:radext@ietf.org), which is archived at
-   https://example.com/WG.  Subscribe at
+   https://mailarchive.ietf.org/arch/browse/radext/.  Subscribe at
    https://www.ietf.org/mailman/listinfo/radext/.
 
    Source for this draft and an issue tracker can be found at
@@ -102,11 +103,12 @@ Table of Contents
      12.1.  Loop Detection Message Exchange Examples
    13. Management Information Base (MIB) Considerations
    14. Interaction with RADIUS Client MIB Modules
-   15. IANA Considerations
-   16. Security Considerations
-   17. References
-     17.1.  Normative References
-     17.2.  Informative References
+   15. Status-Realm Attributes
+   16. IANA Considerations
+   17. Security Considerations
+   18. References
+     18.1.  Normative References
+     18.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -418,8 +420,13 @@ Table of Contents
    Code (TBD).  This is of type tlv, as defined in [RFC8044], section
    3.13.  It contains 3 sub-attributes:
 
-   Response-Code (Type = 1) Hop-Count (Type = 2) Responding-Server (Type
-   = 3) Response-Code is of type 'integer', as defined in [RFC8044],
+   *  Response-Code (Type = 1)
+
+   *  Hop-Count (Type = 2)
+
+   *  Responding-Server (Type = 3)
+
+   Response-Code is of type 'integer', as defined in [RFC8044],
    Section 3.1.  Exactly one Response-Code sub-attribute MUST be
    included in in every Status-Realm-Response-Code attribute.  It will
    contain one of the following values:
@@ -496,8 +503,8 @@ Table of Contents
 
    *  Time-Delta (Type = 4)
 
-   *  The Server-Operator is of type 'string'.  It is the analogue of
-      the Operator-Name, as defined in [RFC5580].
+   The Server-Operator is of type 'string'.  It is the analogue of the
+   Operator-Name, as defined in [RFC5580].
 
    The Server-Identifier in an analogue of the NAS-Identifier defined in
    [RFC2865].  It indicates the name of this particular proxy server.
@@ -833,7 +840,7 @@ Table of Contents
    responses.  Any definition of the RADIUS Client MIB modules for
    Status-Realm-Requests is outside of the scope of this document.
 
-   1.  Table of Attributes
+15.  Status-Realm Attributes
 
    The following table provides a guide to which attributes may be found
    in Status-Realm-Request and Status-Realm-Response packets, and in
@@ -874,7 +881,7 @@ Table of Contents
       1     Exactly one instance of this attribute MUST be present in
             the packet.
 
-15.  IANA Considerations
+16.  IANA Considerations
 
    This document defines the Status-Realm-Request (TBD) and the Status-
    Realm-Response (TBD) RADIUS Packet Type Codes, both of which should
@@ -892,7 +899,7 @@ Table of Contents
    Response-Code" and "Valies for RADIUS Attribute (TBD), Server-
    Identifier".  Initial values for these registries are defined above.
 
-16.  Security Considerations
+17.  Security Considerations
 
    Status-Realm-Request packets are similar to Access-Request packets,
    and are therefore subject to the same security considerations as
@@ -927,9 +934,9 @@ Table of Contents
 
    Security Considerations for Loop Prevention are TBD.
 
-17.  References
+18.  References
 
-17.1.  Normative References
+18.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -949,7 +956,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-17.2.  Informative References
+18.2.  Informative References
 
    [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
               DOI 10.17487/RFC1321, April 1992,
