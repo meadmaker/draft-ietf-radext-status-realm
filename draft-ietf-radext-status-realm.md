@@ -30,7 +30,7 @@ author:
  -
     fullname: Alan DeKok
     organization: FreeRADIUS
-    email: aland@painless-security.com
+    email: aland@freeradius.org
  -
     fullname: Mark Donnelly
     organization: Painless Security
