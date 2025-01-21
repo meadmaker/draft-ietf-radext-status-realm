@@ -9,17 +9,17 @@ number:
 date:
 consensus: true
 v: 3
-area: SEC
-workgroup: RADEXT
+area: ""
+workgroup: "RADIUS EXTensions"
 keyword:
  - Internet-Draft
 venue:
-  group: SEC
-  type: Working Group
-  mail: radext@ietf.org
-  arch: https://example.com/WG
-  github: meadmaker/draft-ietf-radext-status-realm
-  latest: https://example.com/LATEST
+  group: "RADIUS EXTensions"
+  type: ""
+  mail: "radext@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/radext/"
+  github: "meadmaker/draft-ietf-radext-status-realm"
+  latest: "https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html"
 
 author:
  -
