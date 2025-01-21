@@ -19,9 +19,9 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
-category: info
+title: "Status-Realm and Loop Prevention for the Remote Dial-In User Service (RADIUS)"
+abbrev: "RADIUS Status-Realm and Loop Detection"
+category: std
 
 docname: draft-todo-yourname-protocol-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
@@ -29,12 +29,10 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: SEC
+workgroup: RADEXT
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - Internet-Draft
 venue:
   group: WG
   type: Working Group
@@ -45,13 +43,43 @@ venue:
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Margaret Cullen
+    organization: Painless Security
+    email: margaret@painless-security.com
+    phone: +1 (781)405-7464
+ -
+    fullname: Alan DeKok
+    organization: FreeRADIUS
+    email: aland@painless-security.com
+ -
+    fullname: Mark Donnelly
+    organization: Painless Security
+    email: mark@painless-security.com
+    phone: +1 (857)928-5967
+ -
+    fullname: Josh Howlett
+    organization: Federated Solutions
+    email: josh@federated-solutions.com
+    phone: +44 (0)7510 666 950
 
 normative:
+  RFC2119:
+  RFC2865:
+  RFC8044:
 
 informative:
+  RFC1321:
+  RFC2866:
+  RFC2869:
+  RFC3579:
+  RFC4270:
+  RFC4668:
+  RFC4669:
+  RFC4670:
+  RFC3671:
+  RFC5580:
+  RFC5997:
+  RFC7991:
 
 
 --- abstract
