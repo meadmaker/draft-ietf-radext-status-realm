@@ -1051,7 +1051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cullen, et al.</td>
-<td class="center">Expires 25 July 2025</td>
+<td class="center">Expires 31 July 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-radext-status-realm-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-01-21" class="published">21 January 2025</time>
+<time datetime="2025-01-27" class="published">27 January 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-07-25">25 July 2025</time></dd>
+<dd class="expires"><time datetime="2025-07-31">31 July 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 July 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 31 July 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1453,7 +1453,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-5.1-1">Status-Realm-Request packets reuse the RADIUS packet format, with the fields and values for those fields as defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>, Section 3.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">A Status-Realm-Request packet <span class="bcp14">MUST</span> include a Message-Authenticator attribute, as defined in <span>[<a href="#RFC2869" class="cite xref">RFC2869</a>]</span>, section 5.14. The Message-Authenticator provides per-packet authentication and integrity protection. The Authenticator field of a Status-Realm-Request packet <span class="bcp14">MUST</span> be generated using the same method as that used for the Request Authenticator field of Access-Request packets.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <p id="section-5.1-3">A Status-Realm-Request packets <span class="bcp14">MUST</span> include a User-Name Attribute, containing the Target Realm for the Request. The 'user' portion of the User-Name <span class="bcp14">SHOULD</span> be ignored, if present.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">A Status-Realm-Request message <span class="bcp14">MUST</span> also include a Max-Hop-Count attribute, as defined above.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">A Status-Realm-Request message <span class="bcp14">MUST</span> also include a Max-Hop-Count attribute, as defined below.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1-5">Status-Realm-Requests <span class="bcp14">MAY</span> include NAS-Identifier, and one of (NAS-IP-Address or NAS-IPv6-Address). These attributes are not necessary for the operation of Status-Realm, but may be useful information to a server that receives those packets.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
 <p id="section-5.1-6">Status-Realm-Request packets <span class="bcp14">MUST NOT</span> contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 </section>
@@ -1479,7 +1479,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       </h2>
 <p id="section-6-1">This section defines a new RADIUS attribute, Max-Hop-Count (TBD). The value of the Max-Hop-Count attribute is an integer, as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.1. Valid values are small positive integers, 0 to 255.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">This attribute is used to limit the number of RADIUS servers that will proxy a packet before it reaches its final destination. When a RADIUS server that implements the Max-Hop-Count Attribute determines that it wants to proxy a RADIUS Request to another RADIUS Server, it will check the Max-Hop-Count attribute. If the Max-Hop-Count attribute is present and the value is zero, the Request <span class="bcp14">MUST NOT</span> be forwarded and an error response <span class="bcp14">SHOULD</span> be returned, as appropriate to the request type. If the Max-Hop-Count is greater than zero, the proxy server <span class="bcp14">MUST</span> decrement the hop count by 1 before forwarding the request.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">In the context of Status-Realm-Requests, this attribute can be used to implement "traceroute-like" functionality. By sending a series of Status-Realm-Requests with incremented values of Max-Hop-Count, starting with a Max-Hop-Count value of O, the RADIUS Client will receive a series of Status-Realm-Responses from the RADIUS Proxies on the Proxy Path to a given Target Realm.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-3">In the context of Status-Realm-Requests, this attribute can be used to implement "traceroute-like" functionality. By sending a series of Status-Realm-Requests with incremented values of Max-Hop-Count, starting with a Max-Hop-Count value of 0, the RADIUS Client will receive a series of Status-Realm-Responses from the RADIUS Proxies on the Proxy Path to a given Target Realm.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <p id="section-6-4">When used on other types of RADIUS Request messages, this option can mitigate the damage caused by RADIUS proxy loops. It is therefore possible that a RADIUS Client or a RADIUS proxy server will support the Max-Hop-Count attribute, even if they do not support Status-Realm. When used to limit RADIUS proxy loops, it is <span class="bcp14">RECOMMENDED</span> that the value of the Max-Hop-Count attribute be set to 32, by default.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">For any type of RADIUS request message, setting the Max-Hop-Count attribute to 0 effectively requests that the request message not be proxied. Setting the attribute to a value greater than 0 requests that the request message be proxied across at most that many intermediate proxies between the visited and home server.<a href="#section-6-5" class="pilcrow">¶</a></p>
 <p id="section-6-6">If this attribute is not present on a RADIUS Request received from a RADIUS Client, the First-Hop RADIUS Server <span class="bcp14">MAY</span> add this option, setting it to the default value of 32, or to any valid, configured value.<a href="#section-6-6" class="pilcrow">¶</a></p>
@@ -1490,7 +1490,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-status-realm-response-code-">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-status-realm-response-code-" class="section-name selfRef">Status-Realm-Response-Code Attribute</a>
       </h2>
-<p id="section-7-1">This section defines a new RADIUS attribute, Status-Realm-Response-Code (TBD). This is of type tlv, as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, section 3.13. It contains 3 sub-attributes:<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">This section defines a new RADIUS attribute, Status-Realm-Response-Code (TBD). This has data type tlv, as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, section 3.13. It contains 3 sub-attributes:<a href="#section-7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7-2.1">
           <p id="section-7-2.1.1">Response-Code (Type = 1)<a href="#section-7-2.1.1" class="pilcrow">¶</a></p>
@@ -1502,7 +1502,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
           <p id="section-7-2.3.1">Responding-Server (Type = 3)<a href="#section-7-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-7-3">Response-Code is of type 'integer', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.1. Exactly one Response-Code sub-attribute <span class="bcp14">MUST</span> be included in in every Status-Realm-Response-Code attribute. It will contain one of the following values:<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-3">Response-Code has data type 'integer', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.1. Exactly one Response-Code sub-attribute <span class="bcp14">MUST</span> be included in in every Status-Realm-Response-Code attribute. It will contain one of the following values:<a href="#section-7-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-7-4">
 <pre>
    0        The target realm is available
@@ -1532,8 +1532,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </pre><a href="#section-7-4" class="pilcrow">¶</a>
 </div>
 <p id="section-7-5">Response-Code values from 0 to 255 indicate the status of the target realm on the RADIUS network. Response-Code values from 256 to 511 indicate errors in processing the Status-Realm request, and cannot indicate the status of the target realm.<a href="#section-7-5" class="pilcrow">¶</a></p>
-<p id="section-7-6">Hop-Count is of type 'integer'. Valid values are 0-255. The value of this sub-attribute <span class="bcp14">MUST</span> be set to the value of the Max-Hop-Count attribute in the received Status-Realm-Request. If no Max-Hop-Count is included in the Status-Realm-Request message, this sub-attribute <span class="bcp14">MUST</span> be omitted.<a href="#section-7-6" class="pilcrow">¶</a></p>
-<p id="section-7-7">Responding-Server is of type 'tlv', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.13. This sub-attribute <span class="bcp14">MUST</span> be returned in every Status-Realm-Response attribute. The value field of this sub-attribute contains a Server-Information Attribute for the responding server, as described below.<a href="#section-7-7" class="pilcrow">¶</a></p>
+<p id="section-7-6">Hop-Count has data type 'integer'. Valid values are 0-255. The value of this sub-attribute <span class="bcp14">MUST</span> be set to the value of the Max-Hop-Count attribute in the received Status-Realm-Request. If no Max-Hop-Count is included in the Status-Realm-Request message, this sub-attribute <span class="bcp14">MUST</span> be omitted.<a href="#section-7-6" class="pilcrow">¶</a></p>
+<p id="section-7-7">Responding-Server has data type 'tlv', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.13. This sub-attribute <span class="bcp14">MUST</span> be returned in every Status-Realm-Response attribute. The value field of this sub-attribute contains a Server-Information Attribute for the responding server, as described below.<a href="#section-7-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="server-information-attribute">
@@ -1542,7 +1542,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-server-information-attribut" class="section-name selfRef">Server-Information Attribute</a>
       </h2>
 <p id="section-8-1">The Server-Information attribute is used to identify a specific RADIUS Server. It <span class="bcp14">MAY</span> be added to any RADIUS Request message to indicate that a particular RADIUS Server has processed the Request. If present in a RADIUS Request, it <span class="bcp14">SHOULD</span> be copied into the corresponding RADIUS Response. RADIUS Servers <span class="bcp14">SHOULD NOT</span> add Server-Information attributes to Response messages when processing Responses.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">This attribute is of type 'tlv', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.13. The value of this attribute consists of a set of sub-attributes, all of type 'tlv'. Each sub-attribute contains an identifier for a RADIUS proxy. The Server-Identifier <span class="bcp14">MUST</span> have at least one sub-attribute and <span class="bcp14">MAY</span> have more than one sub-attribute. If multiple sub-attributes are present, a RADIUS proxy <span class="bcp14">MUST</span> match all of the sub-attributes in order to match the identifier.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-2">This attribute has data type 'tlv', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.13. The value of this attribute consists of a set of sub-attributes, all of type 'tlv'. Each sub-attribute contains an identifier for a RADIUS proxy. The Server-Identifier <span class="bcp14">MUST</span> have at least one sub-attribute and <span class="bcp14">MAY</span> have more than one sub-attribute. If multiple sub-attributes are present, a RADIUS proxy <span class="bcp14">MUST</span> match all of the sub-attributes in order to match the identifier.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">The following sub-attributes may be included in the value field of a Server-Information Attribute. The Type code for each sub-attribute is included in parenthesis.<a href="#section-8-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8-4.1">
@@ -1558,9 +1558,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
           <p id="section-8-4.4.1">Time-Delta (Type = 4)<a href="#section-8-4.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-8-5">The Server-Operator is of type 'string'. It is the analogue of the Operator-Name, as defined in <span>[<a href="#RFC5580" class="cite xref">RFC5580</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
+<p id="section-8-5">The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in <span>[<a href="#RFC5580" class="cite xref">RFC5580</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <p id="section-8-6">The Server-Identifier in an analogue of the NAS-Identifier defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>. It indicates the name of this particular proxy server. This field is used to identify which server processed the Request, among those operated by the organization indicated in the Server-Operator sub-attribute.<a href="#section-8-6" class="pilcrow">¶</a></p>
-<p id="section-8-7">The Time-Delta attribute is of type 'integer'. It represents the number of milliseconds the request took to return through this proxy server. For the target server, this value <span class="bcp14">SHOULD</span> be 0.<a href="#section-8-7" class="pilcrow">¶</a></p>
+<p id="section-8-7">The Time-Delta attribute has data type 'integer'. It represents the number of milliseconds the request took to return through this proxy server. For the target server, this value <span class="bcp14">SHOULD</span> be 0.<a href="#section-8-7" class="pilcrow">¶</a></p>
 <div id="status-realm-responding-server">
 <section id="section-8.1">
         <h3 id="name-status-realm-responding-ser">
@@ -1641,18 +1641,18 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-status-realm-implementation">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-status-realm-implementation" class="section-name selfRef">Status-Realm Implementation Requirements</a>
       </h2>
-<p id="section-9-1">This section describes implementation details and requirements for RADIUS Clients and servers that support Status-Realm.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">This section describes implementation details and requirements for RADIUS Clients and Servers that support Status-Realm.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <div id="radius-client-requirements">
 <section id="section-9.1">
         <h3 id="name-radius-client-requirements">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-radius-client-requirements" class="section-name selfRef">RADIUS Client Requirements</a>
         </h3>
-<p id="section-9.1-1">When Status-Realm-Request packets are sent from a RADIUS Client, they <span class="bcp14">MUST NOT</span> be retransmitted. Instead, the Identity field <span class="bcp14">MUST</span> be changed every time a packet is transmitted. The old packet should be discarded, and a new Status-Realm-Request packet should be generated and sent, with new Identity and Authenticator fields.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">When Status-Realm-Request packets are sent from a RADIUS Client, they <span class="bcp14">MUST NOT</span> be retransmitted. Instead, the Identifier field <span class="bcp14">MUST</span> be changed every time a packet is transmitted. The old packet should be discarded, and a new Status-Realm-Request packet should be generated and sent, with new Identifier and Authenticator fields.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">RADIUS Clients <span class="bcp14">MUST</span> include the Message-Authenticator attribute in all Status-Realm-Request packets. Failure to do so would mean that the packets could be trivially spoofed, leading to potential denial-of-service (DoS) attacks.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 <p id="section-9.1-3">The RADIUS Client <span class="bcp14">MUST</span> include a User-Name attribute in the request. The "user" portion of the username <span class="bcp14">SHOULD</span> be omitted. The "realm" portion of the username is the target realm for the Status-Realm request.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 <p id="section-9.1-4">RADIUS Clients that support Status-Realm-Requests <span class="bcp14">SHOULD</span> allow a user or administrator to set or configure the Count value of the Max-Hop-Count Attribute described above. If a different value is not indicated, the RADIUS Client <span class="bcp14">SHOULD</span> include a Max-Hop-Count attribute with a Count value of 32 in the Status-Realm-Request packet to prevent the possibility that Status-Realm-Requests will loop indefinitely.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
 <p id="section-9.1-5">The RADIUS Client <span class="bcp14">MAY</span> increment packet counters as a result of sending a Status-Realm-Resquest or receiving a Status-Realm-Response. The RADIUS Client <span class="bcp14">MUST NOT</span> perform any other action that is normally performed when it receives a Response packet, such as permitting a user to have login access to a port.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
-<p id="section-9.1-6">RADIUS Clients <span class="bcp14">MAY</span> send Status-Realm-Request packets to the RADIUS destination ports from the same source port(s) used to send other Request packets. Other RADIUS Clients <span class="bcp14">MAY</span> choose to send Status-Realm-Request packets from a unique source port that is not used to send other Request packets.<a href="#section-9.1-6" class="pilcrow">¶</a></p>
+<p id="section-9.1-6">RADIUS Clients <span class="bcp14">MAY</span> send Status-Realm-Request packets to the RADIUS destination ports from the same source port(s) used to send other Request packets. RADIUS Clients <span class="bcp14">MAY</span> choose to send Status-Realm-Request packets from a unique source port that is not used to send other Request packets.<a href="#section-9.1-6" class="pilcrow">¶</a></p>
 <p id="section-9.1-7">In the case where a RADIUS Client sends a Status-Realm-Request packets from a source port also used to send other Request packets, the Identifier field <span class="bcp14">MUST</span> be unique across all outstanding Request packets for that source port, independent of the value of the RADIUS Code field for those outstanding requests. Once the RADIUS Client has either received a corresponding Status-Realm-Response packet or determined that the Status-Realm-Request has timed out, it may reuse the Identifier in another Request packet.<a href="#section-9.1-7" class="pilcrow">¶</a></p>
 <p id="section-9.1-8">The RADIUS Client <span class="bcp14">MUST</span> validate the Response Authenticator in the Status-Realm-Response. If the Response Authenticator is not valid, the packet <span class="bcp14">MUST</span> be silently discarded. If the Response Authenticator is valid, then the packet <span class="bcp14">MUST</span> be deemed to be a valid response.<a href="#section-9.1-8" class="pilcrow">¶</a></p>
 </section>

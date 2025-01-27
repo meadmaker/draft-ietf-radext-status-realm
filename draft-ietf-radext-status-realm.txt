@@ -5,12 +5,12 @@
 RADIUS EXTensions                                              M. Cullen
 Internet-Draft                                         Painless Security
 Intended status: Standards Track                                A. DeKok
-Expires: 25 July 2025                                         FreeRADIUS
+Expires: 31 July 2025                                         FreeRADIUS
                                                              M. Donnelly
                                                        Painless Security
                                                               J. Howlett
                                                      Federated Solutions
-                                                         21 January 2025
+                                                         27 January 2025
 
 
   Status-Realm and Loop Prevention for the Remote Dial-In User Service
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 July 2025.
+   This Internet-Draft will expire on 31 July 2025.
 
 Copyright Notice
 
@@ -336,7 +336,7 @@ Table of Contents
    the User-Name SHOULD be ignored, if present.
 
    A Status-Realm-Request message MUST also include a Max-Hop-Count
-   attribute, as defined above.
+   attribute, as defined below.
 
    Status-Realm-Requests MAY include NAS-Identifier, and one of (NAS-IP-
    Address or NAS-IPv6-Address).  These attributes are not necessary for
@@ -392,7 +392,7 @@ Table of Contents
    In the context of Status-Realm-Requests, this attribute can be used
    to implement "traceroute-like" functionality.  By sending a series of
    Status-Realm-Requests with incremented values of Max-Hop-Count,
-   starting with a Max-Hop-Count value of O, the RADIUS Client will
+   starting with a Max-Hop-Count value of 0, the RADIUS Client will
    receive a series of Status-Realm-Responses from the RADIUS Proxies on
    the Proxy Path to a given Target Realm.
 
@@ -417,7 +417,7 @@ Table of Contents
 7.  Status-Realm-Response-Code Attribute
 
    This section defines a new RADIUS attribute, Status-Realm-Response-
-   Code (TBD).  This is of type tlv, as defined in [RFC8044], section
+   Code (TBD).  This has data type tlv, as defined in [RFC8044], section
    3.13.  It contains 3 sub-attributes:
 
    *  Response-Code (Type = 1)
@@ -426,7 +426,7 @@ Table of Contents
 
    *  Responding-Server (Type = 3)
 
-   Response-Code is of type 'integer', as defined in [RFC8044],
+   Response-Code has data type 'integer', as defined in [RFC8044],
    Section 3.1.  Exactly one Response-Code sub-attribute MUST be
    included in in every Status-Realm-Response-Code attribute.  It will
    contain one of the following values:
@@ -461,13 +461,13 @@ Table of Contents
    indicate errors in processing the Status-Realm request, and cannot
    indicate the status of the target realm.
 
-   Hop-Count is of type 'integer'.  Valid values are 0-255.  The value
-   of this sub-attribute MUST be set to the value of the Max-Hop-Count
-   attribute in the received Status-Realm-Request.  If no Max-Hop-Count
-   is included in the Status-Realm-Request message, this sub-attribute
-   MUST be omitted.
+   Hop-Count has data type 'integer'.  Valid values are 0-255.  The
+   value of this sub-attribute MUST be set to the value of the Max-Hop-
+   Count attribute in the received Status-Realm-Request.  If no Max-Hop-
+   Count is included in the Status-Realm-Request message, this sub-
+   attribute MUST be omitted.
 
-   Responding-Server is of type 'tlv', as defined in [RFC8044],
+   Responding-Server has data type 'tlv', as defined in [RFC8044],
    Section 3.13.  This sub-attribute MUST be returned in every Status-
    Realm-Response attribute.  The value field of this sub-attribute
    contains a Server-Information Attribute for the responding server, as
@@ -483,7 +483,7 @@ Table of Contents
    Information attributes to Response messages when processing
    Responses.
 
-   This attribute is of type 'tlv', as defined in [RFC8044],
+   This attribute has data type 'tlv', as defined in [RFC8044],
    Section 3.13.  The value of this attribute consists of a set of sub-
    attributes, all of type 'tlv'.  Each sub-attribute contains an
    identifier for a RADIUS proxy.  The Server-Identifier MUST have at
@@ -503,8 +503,8 @@ Table of Contents
 
    *  Time-Delta (Type = 4)
 
-   The Server-Operator is of type 'string'.  It is the analogue of the
-   Operator-Name, as defined in [RFC5580].
+   The Server-Operator has data type 'string'.  It is the analogue of
+   the Operator-Name, as defined in [RFC5580].
 
    The Server-Identifier in an analogue of the NAS-Identifier defined in
    [RFC2865].  It indicates the name of this particular proxy server.
@@ -512,7 +512,7 @@ Table of Contents
    among those operated by the organization indicated in the Server-
    Operator sub-attribute.
 
-   The Time-Delta attribute is of type 'integer'.  It represents the
+   The Time-Delta attribute has data type 'integer'.  It represents the
    number of milliseconds the request took to return through this proxy
    server.  For the target server, this value SHOULD be 0.
 
@@ -569,15 +569,15 @@ Table of Contents
 9.  Status-Realm Implementation Requirements
 
    This section describes implementation details and requirements for
-   RADIUS Clients and servers that support Status-Realm.
+   RADIUS Clients and Servers that support Status-Realm.
 
 9.1.  RADIUS Client Requirements
 
    When Status-Realm-Request packets are sent from a RADIUS Client, they
-   MUST NOT be retransmitted.  Instead, the Identity field MUST be
+   MUST NOT be retransmitted.  Instead, the Identifier field MUST be
    changed every time a packet is transmitted.  The old packet should be
    discarded, and a new Status-Realm-Request packet should be generated
-   and sent, with new Identity and Authenticator fields.
+   and sent, with new Identifier and Authenticator fields.
 
    RADIUS Clients MUST include the Message-Authenticator attribute in
    all Status-Realm-Request packets.  Failure to do so would mean that
@@ -605,9 +605,9 @@ Table of Contents
 
    RADIUS Clients MAY send Status-Realm-Request packets to the RADIUS
    destination ports from the same source port(s) used to send other
-   Request packets.  Other RADIUS Clients MAY choose to send Status-
-   Realm-Request packets from a unique source port that is not used to
-   send other Request packets.
+   Request packets.  RADIUS Clients MAY choose to send Status-Realm-
+   Request packets from a unique source port that is not used to send
+   other Request packets.
 
    In the case where a RADIUS Client sends a Status-Realm-Request
    packets from a source port also used to send other Request packets,
