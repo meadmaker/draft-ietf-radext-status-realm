@@ -312,7 +312,7 @@ When Status-Realm-Request packets are sent from a RADIUS Client, they MUST NOT b
 
 RADIUS Clients MUST include the Message-Authenticator attribute in all Status-Realm-Request packets. Failure to do so would mean that the packets could be trivially spoofed, leading to potential denial-of-service (DoS) attacks.
 
-The RADIUS Client MUST include a User-Name attribute in the request. The "user" portion of the username SHOULD be omitted. The "realm" portion of the username is the target realm for the Status-Realm request.
+The RADIUS Client MUST include a User-Name attribute in the request. The User-Name attribute MUST be formatted as a Network Access Identifier (NAI), as described in RFC 7542. The NAI SHOULD follow the second alternative form, '"@" utf8-realm'. The "utf8-realm" portion of the NAI is the target realm for the Status-Realm request, and MUST follow the rules for NAI realms set out in section 2.
 
 RADIUS Clients that support Status-Realm-Requests SHOULD allow a user or administrator to set or configure the Count value of the Max-Hop-Count Attribute described above. If a different value is not indicated, the RADIUS Client SHOULD include a Max-Hop-Count attribute with a Count value of 32 in the Status-Realm-Request packet to prevent the possibility that Status-Realm-Requests will loop indefinitely.
 
