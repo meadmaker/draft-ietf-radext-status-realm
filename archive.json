@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-26T00:40:29.282309+00:00",
+  "timestamp": "2025-01-28T00:39:26.902468+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -64,7 +64,7 @@
       "labels": [],
       "body": "Section 5.1 ([Status-Realm-Request Packet](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#name-status-realm-request-packet)) declares:\n> Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).\n\nIt does not declare how a RADIUS Server should respond when it receives a packet that contains authentication credentials.  Should the server silently reject?  Should it reject with an error code, possibly a new one for [Section 7](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-7-4)?  Should it strip the credential and forward it along as an otherwise normal Status-Realm request?",
       "createdAt": "2025-01-24T15:31:48Z",
-      "updatedAt": "2025-01-24T18:46:30Z",
+      "updatedAt": "2025-01-27T02:45:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -73,6 +73,13 @@
           "body": "probably add a new error code saying `invalid contents`\n\nit's likely better to return an error, instead of stripping the attributes and forwarding them.",
           "createdAt": "2025-01-24T18:46:29Z",
           "updatedAt": "2025-01-24T18:46:29Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "OWNER",
+          "body": "I also prefer to return an error code.  I'll write an update to do so.",
+          "createdAt": "2025-01-27T02:45:21Z",
+          "updatedAt": "2025-01-27T02:45:21Z"
         }
       ]
     },
@@ -81,7 +88,7 @@
       "id": "I_kwDONtL-Cc6neVHL",
       "title": "What is the difference between response codes 4 and 258?",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -91,8 +98,8 @@
       "labels": [],
       "body": "Both say the target realm is \"missing or invalid.\"  What is the difference  between them?  How should clients react differently when they receive one or the other?",
       "createdAt": "2025-01-24T15:37:49Z",
-      "updatedAt": "2025-01-24T18:45:34Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-27T14:57:46Z",
+      "closedAt": "2025-01-27T14:57:45Z",
       "comments": [
         {
           "author": "alandekok",
@@ -100,6 +107,13 @@
           "body": "I think those should be two separate cases.  ",
           "createdAt": "2025-01-24T18:45:33Z",
           "updatedAt": "2025-01-24T18:45:33Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "OWNER",
+          "body": "Ironically, I had a typo when I entered this issue; I meant to ask about code 3, instead of code 4.  This has been brought up in #8, so I'll have the conversation over there.",
+          "createdAt": "2025-01-27T14:57:45Z",
+          "updatedAt": "2025-01-27T14:57:45Z"
         }
       ]
     },
@@ -117,7 +131,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-01-24T15:39:25Z",
-      "updatedAt": "2025-01-24T18:45:13Z",
+      "updatedAt": "2025-01-27T02:52:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -126,6 +140,13 @@
           "body": "There may be privacy issues here? It's worth while to define it, as I can see people using it for internal proxies.  But the text should say it's not required.",
           "createdAt": "2025-01-24T18:45:11Z",
           "updatedAt": "2025-01-24T18:45:11Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "OWNER",
+          "body": "I'll go ahead and define the sub-attribute, then.\n\nThe text says that the Server-Information attribute MUST have at least one sub-attribute, and MAY have more than one, but does not specify that any particular one is required.  I think that should convey that the IP address sub-attribute is not required.\n\nI'll also add some text in the Security Considerations about the information exposure that this represents.",
+          "createdAt": "2025-01-27T02:52:53Z",
+          "updatedAt": "2025-01-27T02:52:53Z"
         }
       ]
     },
@@ -160,7 +181,7 @@
       "id": "I_kwDONtL-Cc6neaeV",
       "title": "Ports and RadSec",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -169,8 +190,8 @@
       "labels": [],
       "body": "[Section 9.1](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-9.1-6) declares:\n> RADIUS Clients MAY send Status-Realm-Request packets to the RADIUS destination ports from the same source port(s) used to send other Request packets. Other RADIUS Clients MAY choose to send Status-Realm-Request packets from a unique source port that is not used to send other Request packets.\n\nThis seems to be discussing how the protocol should work over plaintext UDP.  Does anything need to change for RadSec?",
       "createdAt": "2025-01-24T15:48:48Z",
-      "updatedAt": "2025-01-24T18:34:45Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-27T14:54:10Z",
+      "closedAt": "2025-01-27T14:54:10Z",
       "comments": [
         {
           "author": "alandekok",
@@ -186,7 +207,7 @@
       "id": "I_kwDONtL-Cc6neb_O",
       "title": "Message authenticators and RadSec",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/6",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -195,8 +216,8 @@
       "labels": [],
       "body": "[Section 9.2](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-9.2-3) declares:\n> If a server supports Status-Realm, is configured to respond to Status-Realm-Requets, and receives a Status-Realm-Request packet from a permitted RADIUS Client, it MUST first validate the Message-Authenticator attribute as defined in [[RFC3579](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#RFC3579)], Section 3.2. Packets failing this validation MUST be silently discarded.\n\nI don't remember off the top of my head how the Message-Authenticator is treated under RadSec.  Is that still used, or should this be updated to reflect that this is for plaintext UDP only?",
       "createdAt": "2025-01-24T15:51:51Z",
-      "updatedAt": "2025-01-24T18:34:08Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-27T03:20:12Z",
+      "closedAt": "2025-01-27T03:20:12Z",
       "comments": [
         {
           "author": "alandekok",
@@ -221,7 +242,7 @@
       "labels": [],
       "body": "[Section 9.3](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-9.3-4) states:\n> In some cases, a RADIUS proxy may not have an available next-hop RADIUS server for the Target Realm. In that case, the RADIUS proxy server MUST send a Status-Realm-Response packet indicating that there is no proxy route to the Target Realm (Status-Server-Response-Code = 1).\n\n\"Available\" could be talking about either the question of whether the RADIUS proxy is configured to know about the Target Realm at all, or it could be talking about whether the RADIUS proxy thinks that the next hop RADIUS server is reachable (alive/dead).  Which of these does this paragraph describe?  Should the behavior be different between these two cases?",
       "createdAt": "2025-01-24T15:57:26Z",
-      "updatedAt": "2025-01-24T18:33:39Z",
+      "updatedAt": "2025-01-27T16:10:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -230,6 +251,13 @@
           "body": "I think this overlaps with issue #8.  If we separate the failure codes into blocks, we can better distinguish \"unreachable realm\" from \"unknown realm\"\n\nwe can also distinguish the failure cases:\n\n* I have no connections to the next hop\n* I have connections, but the next hop is not responding\n* I know about the realm, but I'm not configured to route it anywhere (not sure when this would happen)\n\nAnd the other failure cases are things like \"I don't know what the heck `@xyz.123` is\"",
           "createdAt": "2025-01-24T18:33:37Z",
           "updatedAt": "2025-01-24T18:33:37Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "OWNER",
+          "body": "> * I know about the realm, but I'm not configured to route it anywhere (not sure when this would happen)\n\nThis happens commonly in eduroam deployments, where a national operator is authoritative for a top-level domain, and so it knows all of the possible valid entries.  Think of it as saying, \"Yes, I know that `oxfrod.ac.uk` does not exist because I am authoritative for `.uk`.\"\n",
+          "createdAt": "2025-01-27T16:08:49Z",
+          "updatedAt": "2025-01-27T16:10:04Z"
         }
       ]
     },
@@ -405,5 +433,58 @@
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 17,
+      "id": "PR_kwDONtL-Cc6JB4Ny",
+      "title": "Return error when Status-Realm request contains user credential",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/17",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft says that Status-Realm requests MUST NOT contain credentials, but doesn't say how to react if a request packet does.  Update to specify an error code to return in this case.\r\n\r\nFixes #1 ",
+      "createdAt": "2025-01-27T02:46:53Z",
+      "updatedAt": "2025-01-27T02:46:58Z",
+      "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "baseRefName": "main",
+      "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
+      "headRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "headRefName": "fix/1",
+      "headRefOid": "e28a132adc365787499e4e414ac0d5df0c4975b6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDONtL-Cc6JB9vi",
+      "title": "Define Server IP Address sub-attributes in Server-Information",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/18",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Define sub-attributes for v4 and v6 addresses, and suggest that people configure the values of any NAT system as the values, when applicable.\r\n\r\nAlso, include in the Security Considerations that this has the potential to divulge information, and again suggest that people configure the RADIUS server to return the publicly known IP addresses when applicable.\r\n\r\nFixes #3 ",
+      "createdAt": "2025-01-27T03:18:28Z",
+      "updatedAt": "2025-01-27T03:18:37Z",
+      "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "baseRefName": "main",
+      "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
+      "headRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "headRefName": "fix/3",
+      "headRefOid": "29bb37c668c37639187edc50850da13715687a8c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
