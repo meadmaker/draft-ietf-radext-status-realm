@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-28T00:39:26.902468+00:00",
+  "timestamp": "2025-01-30T00:38:35.561852+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -334,9 +334,17 @@
       "labels": [],
       "body": "The text says\n\n`Status-Realm-Requests may be sent to the RADIUS authentication port or the RADIUS accounting port of the first-hop RADIUS server....`\n\nMaybe say \"packets received on an authentication port should be forwarded to the authentication port of the next hop\"\n\nbut what if the server receives auth+acct on the same port (e.g. radsec), and then splits that out to two different ports on the next hop?\n\nor what about testing CoA paths?  The CoA proxy document says \"proxy on Operator-Realm\".\n\nPerhaps we want a new attribute which defines what kind of packet it's supposed to track?  i.e.\n\nattribute Follow-Path is integer, and contains an 8-bit RADIUS packet type (Access-Request, Accounting-Request, CoA-Request).  Proxies choose a forwarding path based on this attribute.\n\nthis could also give a way to probe remote servers.  i.e. send Status-Realm with \"follow-path = accounting\" to an authentication port.  the server can either process it as normal, OR reply with an error \"I don't accept accounting on this port\".\n\nThat gives a _positive_ acknowledgement as to what packets are accepted on what port.",
       "createdAt": "2025-01-24T18:54:08Z",
-      "updatedAt": "2025-01-24T18:54:08Z",
+      "updatedAt": "2025-01-29T21:31:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "* have a `Route-As` attribute with packet types (Access-Request, Accounting-Request, CoA/Disconnect-Request)\n* auth + acct are routed on User-Name.\n* CoA / disconnect are routed on Operator-Name, to match RFC 8559",
+          "createdAt": "2025-01-29T21:31:54Z",
+          "updatedAt": "2025-01-29T21:31:54Z"
+        }
+      ]
     },
     {
       "number": 12,
@@ -384,7 +392,7 @@
       "labels": [],
       "body": "[Section 11.2](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-11.2-2) states:\n\n> Before forwarding a RADIUS Request towards the Target Realm, a RADIUS Proxy that implements Proxy Loop Prevention MUST examine each of the Server-Information attributes included in the Request message to determine whether the message is caught in a Proxy Loop. If so, the Proxy should discard the message. \n\nShould the loop-detecting Proxy Server reject the authentication instead of dropping it silently?",
       "createdAt": "2025-01-24T19:08:10Z",
-      "updatedAt": "2025-01-24T19:09:24Z",
+      "updatedAt": "2025-01-29T20:58:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -393,6 +401,13 @@
           "body": "If rejecting, the Proxy Server should indicate somehow which server detected the loop.",
           "createdAt": "2025-01-24T19:09:23Z",
           "updatedAt": "2025-01-24T19:09:23Z"
+        },
+        {
+          "author": "alandekok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the server which detects the loop should return an error with \"loop detected\".\n\nIf the Server-Information attribute is still added, then the loop can be detected by looking for two Server-Information with duplicate contents.",
+          "createdAt": "2025-01-29T20:58:16Z",
+          "updatedAt": "2025-01-29T20:58:16Z"
         }
       ]
     },
@@ -446,7 +461,7 @@
       "labels": [],
       "body": "The draft says that Status-Realm requests MUST NOT contain credentials, but doesn't say how to react if a request packet does.  Update to specify an error code to return in this case.\r\n\r\nFixes #1 ",
       "createdAt": "2025-01-27T02:46:53Z",
-      "updatedAt": "2025-01-27T02:46:58Z",
+      "updatedAt": "2025-01-29T20:56:18Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
@@ -457,7 +472,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "+1 from me",
+          "createdAt": "2025-01-29T20:56:15Z",
+          "updatedAt": "2025-01-29T20:56:15Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -472,7 +495,7 @@
       "labels": [],
       "body": "Define sub-attributes for v4 and v6 addresses, and suggest that people configure the values of any NAT system as the values, when applicable.\r\n\r\nAlso, include in the Security Considerations that this has the potential to divulge information, and again suggest that people configure the RADIUS server to return the publicly known IP addresses when applicable.\r\n\r\nFixes #3 ",
       "createdAt": "2025-01-27T03:18:28Z",
-      "updatedAt": "2025-01-27T03:18:37Z",
+      "updatedAt": "2025-01-29T20:55:47Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
@@ -483,7 +506,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "alandekok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Maybe we want to list a table of attributes and say:\r\n\r\nServer-Identifier OR Server-IP-Address OR Server-IPv6-Address.  Just like the similarly named NAS-*",
+          "createdAt": "2025-01-29T20:55:46Z",
+          "updatedAt": "2025-01-29T20:55:46Z"
+        }
+      ],
       "reviews": []
     }
   ]
