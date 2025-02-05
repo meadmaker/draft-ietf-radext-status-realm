@@ -12,11 +12,11 @@
 <meta content="
        This document describes extension to the Remote Authentication Dial-In User Service (RADIUS) protocol to allow participants in a multi-hop RADIUS proxy fabric to check the status of a remote RADIUS authentication realm, gain visibility into the path that a RADIUS request will take across the RADIUS proxy fabric, and mitigate or prevent RADIUS proxy loops. 
     " name="description">
-<meta content="xml2rfc 3.25.0" name="generator">
+<meta content="xml2rfc 3.26.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-radext-status-realm-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.25.0
+  xml2rfc 3.26.0
     Python 3.12.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1047,11 +1047,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RADIUS Status-Realm and Loop Detection</td>
-<td class="right">January 2025</td>
+<td class="right">February 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cullen, et al.</td>
-<td class="center">Expires 31 July 2025</td>
+<td class="center">Expires 9 August 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-radext-status-realm-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-01-27" class="published">27 January 2025</time>
+<time datetime="2025-02-05" class="published">5 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-07-31">31 July 2025</time></dd>
+<dd class="expires"><time datetime="2025-08-09">9 August 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 July 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1543,31 +1543,47 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       </h2>
 <p id="section-8-1">The Server-Information attribute is used to identify a specific RADIUS Server. It <span class="bcp14">MAY</span> be added to any RADIUS Request message to indicate that a particular RADIUS Server has processed the Request. If present in a RADIUS Request, it <span class="bcp14">SHOULD</span> be copied into the corresponding RADIUS Response. RADIUS Servers <span class="bcp14">SHOULD NOT</span> add Server-Information attributes to Response messages when processing Responses.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">This attribute has data type 'tlv', as defined in <span>[<a href="#RFC8044" class="cite xref">RFC8044</a>]</span>, Section 3.13. The value of this attribute consists of a set of sub-attributes, all of type 'tlv'. Each sub-attribute contains an identifier for a RADIUS proxy. The Server-Identifier <span class="bcp14">MUST</span> have at least one sub-attribute and <span class="bcp14">MAY</span> have more than one sub-attribute. If multiple sub-attributes are present, a RADIUS proxy <span class="bcp14">MUST</span> match all of the sub-attributes in order to match the identifier.<a href="#section-8-2" class="pilcrow">¶</a></p>
-<p id="section-8-3">The following sub-attributes may be included in the value field of a Server-Information Attribute. The Type code for each sub-attribute is included in parenthesis.<a href="#section-8-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-8-4.1">
-          <p id="section-8-4.1.1">Server-Operator (Type = 1)<a href="#section-8-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-8-4.2">
-          <p id="section-8-4.2.1">Server-Identifier (Type = 2)<a href="#section-8-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-8-4.3">
-          <p id="section-8-4.3.1">Hop-Count (Type = 3)<a href="#section-8-4.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-8-4.4">
-          <p id="section-8-4.4.1">Time-Delta (Type = 4)<a href="#section-8-4.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-8-4.5">
-          <p id="section-8-4.5.1">Server-IP-Address (Type = 5)<a href="#section-8-4.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-8-4.6">
-          <p id="section-8-4.6.1">Server-IPv6-Address (Type = 6)<a href="#section-8-4.6.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="section-8-5">The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in <span>[<a href="#RFC5580" class="cite xref">RFC5580</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
-<p id="section-8-6">The Server-Identifier in an analogue of the NAS-Identifier defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>. It indicates the name of this particular proxy server. This field is used to identify which server processed the Request, among those operated by the organization indicated in the Server-Operator sub-attribute.<a href="#section-8-6" class="pilcrow">¶</a></p>
-<p id="section-8-7">The Time-Delta attribute has data type 'integer'. It represents the number of milliseconds the request took to return through this proxy server. For the target server, this value <span class="bcp14">SHOULD</span> be 0.<a href="#section-8-7" class="pilcrow">¶</a></p>
-<p id="section-8-8">The Server-IP-Address has data type 'ipv4addr' and represents the IPv4 address of this particular proxy server.  Similarly, the Server-IPv6-Address has data type 'ipv6addr' and represents the IPv6 address of this particular proxy server. Given the prevalance of network translation, it will be common for a server to be unaware of its commonly used address; therefore, a RADIUS Server <span class="bcp14">SHOULD</span> allow its administrator to configure the values used for these attributes.<a href="#section-8-8" class="pilcrow">¶</a></p>
+<p id="section-8-3">The following sub-attributes are defined for the Server-Information attribute.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Name</th>
+            <th class="text-left" rowspan="1" colspan="1">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Server-Operator</td>
+            <td class="text-left" rowspan="1" colspan="1">1</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Server-Identifier</td>
+            <td class="text-left" rowspan="1" colspan="1">2</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Hop-Count</td>
+            <td class="text-left" rowspan="1" colspan="1">3</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Time-Delta</td>
+            <td class="text-left" rowspan="1" colspan="1">4</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Server-IP-Address</td>
+            <td class="text-left" rowspan="1" colspan="1">5</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Server-IPv6-Address</td>
+            <td class="text-left" rowspan="1" colspan="1">6</td>
+          </tr>
+        </tbody>
+      </table>
+<p id="section-8-5">The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier, Server-IP-Address, or Server-IPv6-Address.  The attribute <span class="bcp14">SHOULD NOT</span> include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.<a href="#section-8-5" class="pilcrow">¶</a></p>
+<p id="section-8-6">The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in <span>[<a href="#RFC5580" class="cite xref">RFC5580</a>]</span>.<a href="#section-8-6" class="pilcrow">¶</a></p>
+<p id="section-8-7">The Server-Identifier in an analogue of the NAS-Identifier defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>. It indicates the name of this particular proxy server. This field is used to identify which server processed the Request, among those operated by the organization indicated in the Server-Operator sub-attribute.<a href="#section-8-7" class="pilcrow">¶</a></p>
+<p id="section-8-8">The Time-Delta attribute has data type 'integer'. It represents the number of milliseconds the request took to return through this proxy server. For the target server, this value <span class="bcp14">SHOULD</span> be 0.<a href="#section-8-8" class="pilcrow">¶</a></p>
+<p id="section-8-9">The Server-IP-Address has data type 'ipv4addr' and represents the IPv4 address of this particular proxy server.  Similarly, the Server-IPv6-Address has data type 'ipv6addr' and represents the IPv6 address of this particular proxy server. Given the prevalance of network translation, it will be common for a server to be unaware of its commonly used address; therefore, a RADIUS Server <span class="bcp14">SHOULD</span> allow its administrator to configure the values used for these attributes.<a href="#section-8-9" class="pilcrow">¶</a></p>
 <div id="status-realm-responding-server">
 <section id="section-8.1">
         <h3 id="name-status-realm-responding-ser">

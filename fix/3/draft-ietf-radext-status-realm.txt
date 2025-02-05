@@ -5,12 +5,12 @@
 RADIUS EXTensions                                              M. Cullen
 Internet-Draft                                         Painless Security
 Intended status: Standards Track                                A. DeKok
-Expires: 31 July 2025                                         FreeRADIUS
+Expires: 9 August 2025                                        FreeRADIUS
                                                              M. Donnelly
                                                        Painless Security
                                                               J. Howlett
                                                      Federated Solutions
-                                                         27 January 2025
+                                                         5 February 2025
 
 
   Status-Realm and Loop Prevention for the Remote Dial-In User Service
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 July 2025.
+   This Internet-Draft will expire on 9 August 2025.
 
 Copyright Notice
 
@@ -491,21 +491,32 @@ Table of Contents
    multiple sub-attributes are present, a RADIUS proxy MUST match all of
    the sub-attributes in order to match the identifier.
 
-   The following sub-attributes may be included in the value field of a
-   Server-Information Attribute.  The Type code for each sub-attribute
-   is included in parenthesis.
+   The following sub-attributes are defined for the Server-Information
+   attribute.
 
-   *  Server-Operator (Type = 1)
+                      +=====================+======+
+                      | Name                | Type |
+                      +=====================+======+
+                      | Server-Operator     | 1    |
+                      +---------------------+------+
+                      | Server-Identifier   | 2    |
+                      +---------------------+------+
+                      | Hop-Count           | 3    |
+                      +---------------------+------+
+                      | Time-Delta          | 4    |
+                      +---------------------+------+
+                      | Server-IP-Address   | 5    |
+                      +---------------------+------+
+                      | Server-IPv6-Address | 6    |
+                      +---------------------+------+
 
-   *  Server-Identifier (Type = 2)
+                                 Table 1
 
-   *  Hop-Count (Type = 3)
-
-   *  Time-Delta (Type = 4)
-
-   *  Server-IP-Address (Type = 5)
-
-   *  Server-IPv6-Address (Type = 6)
+   The Server-Information attribute may include any of Server-Operator,
+   Hop-Count, and Time-Delta.  The Server-Information attribute may also
+   include any one of Server-Identifier, Server-IP-Address, or Server-
+   IPv6-Address.  The attribute SHOULD NOT include more than one of
+   Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
 
    The Server-Operator has data type 'string'.  It is the analogue of
    the Operator-Name, as defined in [RFC5580].
