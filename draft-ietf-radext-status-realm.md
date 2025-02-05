@@ -262,14 +262,18 @@ The Server-Information attribute is used to identify a specific RADIUS Server. I
 
 This attribute has data type 'tlv', as defined in [RFC8044], Section 3.13. The value of this attribute consists of a set of sub-attributes, all of type 'tlv'. Each sub-attribute contains an identifier for a RADIUS proxy. The Server-Identifier MUST have at least one sub-attribute and MAY have more than one sub-attribute. If multiple sub-attributes are present, a RADIUS proxy MUST match all of the sub-attributes in order to match the identifier.
 
-The following sub-attributes may be included in the value field of a Server-Information Attribute. The Type code for each sub-attribute is included in parenthesis.
+The following sub-attributes are defined for the Server-Information attribute.
 
-- Server-Operator (Type = 1)
-- Server-Identifier (Type = 2)
-- Hop-Count (Type = 3)
-- Time-Delta (Type = 4)
-- Server-IP-Address (Type = 5)
-- Server-IPv6-Address (Type = 6)
+| Name                | Type |
+|---------------------|------|
+| Server-Operator     | 1    |
+| Server-Identifier   | 2    |
+| Hop-Count           | 3    |
+| Time-Delta          | 4    |
+| Server-IP-Address   | 5    |
+| Server-IPv6-Address | 6    |
+
+The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier, Server-IP-Address, or Server-IPv6-Address.  The attribute SHOULD NOT include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
 
 The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in [RFC5580].
 
