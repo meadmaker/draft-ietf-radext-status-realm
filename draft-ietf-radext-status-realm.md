@@ -182,7 +182,7 @@ A Status-Realm-Request message MUST also include a Max-Hop-Count attribute, as d
 
 Status-Realm-Requests MAY include NAS-Identifier, and one of (NAS-IP-Address or NAS-IPv6-Address). These attributes are not necessary for the operation of Status-Realm, but may be useful information to a server that receives those packets.
 
-Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).
+Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).  When a RADIUS Server receives a Status-Realm-Request with authentication credentials, it MUST respond with a Status-Realm-Response, and that Status-Realm-Response MUST contain a Status-Realm-Response-Code Attribute with Response-Code 260, Invalid Contents, user credential included.
 
 ## Status-Realm-Response Packet
 
@@ -244,7 +244,9 @@ Response-Code has data type 'integer', as defined in [RFC8044], Section 3.1. Exa
    259      Bad Status-Realm-Request, missing or invalid
             Max-Hop-Count, target realm status unknown
 
-   260-511  Unspecified error, Target Realm status unknown
+   260      Invalid Contents, user credential included
+
+   261-511  Unspecified error, Target Realm status unknown
 
    512+     Reserved
 ~~~~
