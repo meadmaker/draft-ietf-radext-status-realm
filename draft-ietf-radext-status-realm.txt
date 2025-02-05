@@ -5,12 +5,12 @@
 RADIUS EXTensions                                              M. Cullen
 Internet-Draft                                         Painless Security
 Intended status: Standards Track                                A. DeKok
-Expires: 31 July 2025                                         FreeRADIUS
+Expires: 9 August 2025                                        FreeRADIUS
                                                              M. Donnelly
                                                        Painless Security
                                                               J. Howlett
                                                      Federated Solutions
-                                                         27 January 2025
+                                                         5 February 2025
 
 
   Status-Realm and Loop Prevention for the Remote Dial-In User Service
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 July 2025.
+   This Internet-Draft will expire on 9 August 2025.
 
 Copyright Notice
 
@@ -346,7 +346,11 @@ Table of Contents
    Status-Realm-Request packets MUST NOT contain authentication
    credentials (such as User-Password, CHAP-Password, EAP-Message) or
    User or NAS accounting attributes (such as Acct-Session-Id, Acct-
-   Status-Type, Acct-Input-Octets).
+   Status-Type, Acct-Input-Octets).  When a RADIUS Server receives a
+   Status-Realm-Request with authentication credentials, it MUST respond
+   with a Status-Realm-Response, and that Status-Realm-Response MUST
+   contain a Status-Realm-Response-Code Attribute with Response-Code
+   260, Invalid Contents, user credential included.
 
 5.2.  Status-Realm-Response Packet
 
@@ -452,7 +456,9 @@ Table of Contents
       259      Bad Status-Realm-Request, missing or invalid
                Max-Hop-Count, target realm status unknown
 
-      260-511  Unspecified error, Target Realm status unknown
+      260      Invalid Contents, user credential included
+
+      261-511  Unspecified error, Target Realm status unknown
 
       512+     Reserved
 
