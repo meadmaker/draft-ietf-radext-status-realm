@@ -244,6 +244,7 @@ The Response-Code value will be one of:
 | 502  | Bad Status-Realm-Request, missing or invalid Max-Hop-Count, target realm status unknown                        |
 | 503  | Invalid Contents, user credential included               |
 
+Code 402 (The target realm is missing or invalid) and 501 (Bad Status-Realm-Request, missing or invalid Target Realm in the request message, target realm status unknown) are easy to confuse because of similar words in the description.  A Proxy Server MUST return code 501 in response to a Status-Realm-Request that contains an invalid or missing realm, such as when the User-Name attribute has a value of "bob".  A Proxy Server MUST return code 402 when the Status-Realm-Request has specified a valid realm, but the realm is known not to exist, such as when the proxy server is authoritative for all realms ending in ".com" and the requested realm is not in the server's list of known realms.
 
 Hop-Count has data type 'integer'. Valid values are 0-255. The value of this sub-attribute MUST be set to the value of the Max-Hop-Count attribute in the received Status-Realm-Request. If no Max-Hop-Count is included in the Status-Realm-Request message, this sub-attribute MUST be omitted.
 
