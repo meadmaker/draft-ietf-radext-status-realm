@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-04T00:39:31.768300+00:00",
+  "timestamp": "2025-02-06T00:39:59.792738+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -55,7 +55,7 @@
       "id": "I_kwDONtL-Cc6neRhz",
       "title": "How to react to a Status-Realm-Request that contains authentication credentials",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -64,8 +64,8 @@
       "labels": [],
       "body": "Section 5.1 ([Status-Realm-Request Packet](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#name-status-realm-request-packet)) declares:\n> Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).\n\nIt does not declare how a RADIUS Server should respond when it receives a packet that contains authentication credentials.  Should the server silently reject?  Should it reject with an error code, possibly a new one for [Section 7](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-7-4)?  Should it strip the credential and forward it along as an otherwise normal Status-Realm request?",
       "createdAt": "2025-01-24T15:31:48Z",
-      "updatedAt": "2025-01-27T02:45:22Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-05T21:28:37Z",
+      "closedAt": "2025-02-05T21:28:37Z",
       "comments": [
         {
           "author": "alandekok",
@@ -454,24 +454,26 @@
       "id": "PR_kwDONtL-Cc6JB4Ny",
       "title": "Return error when Status-Realm request contains user credential",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/17",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "The draft says that Status-Realm requests MUST NOT contain credentials, but doesn't say how to react if a request packet does.  Update to specify an error code to return in this case.\r\n\r\nFixes #1 ",
       "createdAt": "2025-01-27T02:46:53Z",
-      "updatedAt": "2025-01-29T20:56:18Z",
+      "updatedAt": "2025-02-05T21:28:36Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
       "headRepository": "meadmaker/draft-ietf-radext-status-realm",
       "headRefName": "fix/1",
       "headRefOid": "e28a132adc365787499e4e414ac0d5df0c4975b6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-02-05T21:28:36Z",
+      "mergedAt": "2025-02-05T21:28:36Z",
+      "mergedBy": "meadmaker",
+      "mergeCommit": {
+        "oid": "0d921a26c73459ef5d62db378014efbccbab4099"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -495,13 +497,13 @@
       "labels": [],
       "body": "Define sub-attributes for v4 and v6 addresses, and suggest that people configure the values of any NAT system as the values, when applicable.\r\n\r\nAlso, include in the Security Considerations that this has the potential to divulge information, and again suggest that people configure the RADIUS server to return the publicly known IP addresses when applicable.\r\n\r\nFixes #3 ",
       "createdAt": "2025-01-27T03:18:28Z",
-      "updatedAt": "2025-01-29T20:55:47Z",
+      "updatedAt": "2025-02-05T23:54:29Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
       "headRepository": "meadmaker/draft-ietf-radext-status-realm",
       "headRefName": "fix/3",
-      "headRefOid": "29bb37c668c37639187edc50850da13715687a8c",
+      "headRefOid": "6608ac2d897b588254f6d5522908bc3cd8e77161",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -515,6 +517,32 @@
           "updatedAt": "2025-01-29T20:55:46Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDONtL-Cc6KNSrW",
+      "title": "Use the \"@realm\" form of the NAI",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/19",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Change to be explicit about having the User-Name attribute's value be a Network Access Identifier of the second form, \"@realm\".\r\n\r\nFixes #4",
+      "createdAt": "2025-02-05T23:56:49Z",
+      "updatedAt": "2025-02-05T23:56:49Z",
+      "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "baseRefName": "main",
+      "baseRefOid": "0d921a26c73459ef5d62db378014efbccbab4099",
+      "headRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "headRefName": "fix/4",
+      "headRefOid": "fcf47427f7623308deab8eaded78802676e172c6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
