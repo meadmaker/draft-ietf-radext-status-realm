@@ -288,7 +288,7 @@ If a Status-Realm request targeting "target-realm" is routed over proxy servers 
   - Hop-Count: 31
   - Time-Delta: 60
 - Status-Realm-Response-Code:
-  - Response-Code: 0 (Available)
+  - Response-Code: 200 (Available)
   - Hop-Count: 30
   - Responding-Server:
     - Server-Operator: target-realm
