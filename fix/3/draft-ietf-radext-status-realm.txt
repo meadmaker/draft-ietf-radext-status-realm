@@ -5,12 +5,12 @@
 RADIUS EXTensions                                              M. Cullen
 Internet-Draft                                         Painless Security
 Intended status: Standards Track                                A. DeKok
-Expires: 9 August 2025                                        FreeRADIUS
+Expires: 1 September 2025                                     FreeRADIUS
                                                              M. Donnelly
                                                        Painless Security
                                                               J. Howlett
                                                      Federated Solutions
-                                                         5 February 2025
+                                                        28 February 2025
 
 
   Status-Realm and Loop Prevention for the Remote Dial-In User Service
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 August 2025.
+   This Internet-Draft will expire on 1 September 2025.
 
 Copyright Notice
 
@@ -514,7 +514,7 @@ Table of Contents
 
    The Server-Information attribute may include any of Server-Operator,
    Hop-Count, and Time-Delta.  The Server-Information attribute may also
-   include any one of Server-Identifier, Server-IP-Address, or Server-
+   include any one of Server-Identifier OR Server-IP-Address OR Server-
    IPv6-Address.  The attribute SHOULD NOT include more than one of
    Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
 

@@ -12,12 +12,12 @@
 <meta content="
        This document describes extension to the Remote Authentication Dial-In User Service (RADIUS) protocol to allow participants in a multi-hop RADIUS proxy fabric to check the status of a remote RADIUS authentication realm, gain visibility into the path that a RADIUS request will take across the RADIUS proxy fabric, and mitigate or prevent RADIUS proxy loops. 
     " name="description">
-<meta content="xml2rfc 3.26.0" name="generator">
+<meta content="xml2rfc 3.27.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-radext-status-realm-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.26.0
-    Python 3.12.8
+  xml2rfc 3.27.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -438,7 +438,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -1051,7 +1051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cullen, et al.</td>
-<td class="center">Expires 9 August 2025</td>
+<td class="center">Expires 1 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-radext-status-realm-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-05" class="published">5 February 2025</time>
+<time datetime="2025-02-28" class="published">28 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-09">9 August 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-01">1 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1579,7 +1579,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
           </tr>
         </tbody>
       </table>
-<p id="section-8-5">The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier, Server-IP-Address, or Server-IPv6-Address.  The attribute <span class="bcp14">SHOULD NOT</span> include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.<a href="#section-8-5" class="pilcrow">¶</a></p>
+<p id="section-8-5">The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier OR Server-IP-Address OR Server-IPv6-Address.  The attribute <span class="bcp14">SHOULD NOT</span> include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <p id="section-8-6">The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in <span>[<a href="#RFC5580" class="cite xref">RFC5580</a>]</span>.<a href="#section-8-6" class="pilcrow">¶</a></p>
 <p id="section-8-7">The Server-Identifier in an analogue of the NAS-Identifier defined in <span>[<a href="#RFC2865" class="cite xref">RFC2865</a>]</span>. It indicates the name of this particular proxy server. This field is used to identify which server processed the Request, among those operated by the organization indicated in the Server-Operator sub-attribute.<a href="#section-8-7" class="pilcrow">¶</a></p>
 <p id="section-8-8">The Time-Delta attribute has data type 'integer'. It represents the number of milliseconds the request took to return through this proxy server. For the target server, this value <span class="bcp14">SHOULD</span> be 0.<a href="#section-8-8" class="pilcrow">¶</a></p>
