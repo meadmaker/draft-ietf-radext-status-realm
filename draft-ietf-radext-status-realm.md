@@ -264,18 +264,26 @@ The Server-Information attribute is used to identify a specific RADIUS Server. I
 
 This attribute has data type 'tlv', as defined in [RFC8044], Section 3.13. The value of this attribute consists of a set of sub-attributes, all of type 'tlv'. Each sub-attribute contains an identifier for a RADIUS proxy. The Server-Identifier MUST have at least one sub-attribute and MAY have more than one sub-attribute. If multiple sub-attributes are present, a RADIUS proxy MUST match all of the sub-attributes in order to match the identifier.
 
-The following sub-attributes may be included in the value field of a Server-Information Attribute. The Type code for each sub-attribute is included in parenthesis.
+The following sub-attributes are defined for the Server-Information attribute.
 
-- Server-Operator (Type = 1)
-- Server-Identifier (Type = 2)
-- Hop-Count (Type = 3)
-- Time-Delta (Type = 4)
+| Name                | Type |
+|---------------------|------|
+| Server-Operator     | 1    |
+| Server-Identifier   | 2    |
+| Hop-Count           | 3    |
+| Time-Delta          | 4    |
+| Server-IP-Address   | 5    |
+| Server-IPv6-Address | 6    |
+
+The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier OR Server-IP-Address OR Server-IPv6-Address.  The attribute SHOULD NOT include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
 
 The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in [RFC5580].
 
 The Server-Identifier in an analogue of the NAS-Identifier defined in [RFC2865]. It indicates the name of this particular proxy server. This field is used to identify which server processed the Request, among those operated by the organization indicated in the Server-Operator sub-attribute.
 
 The Time-Delta attribute has data type 'integer'. It represents the number of milliseconds the request took to return through this proxy server. For the target server, this value SHOULD be 0.
+
+The Server-IP-Address has data type 'ipv4addr' and represents the IPv4 address of this particular proxy server.  Similarly, the Server-IPv6-Address has data type 'ipv6addr' and represents the IPv6 address of this particular proxy server. Given the prevalance of network translation, it will be common for a server to be unaware of its commonly used address; therefore, a RADIUS Server SHOULD allow its administrator to configure the values used for these attributes.
 
 
 ## Status-Realm Responding-Server
@@ -477,6 +485,8 @@ We reiterate that all Status-Realm-Request packets MUST contain a Message-Authen
 Where this document differs from [RFC2865] is that it defines a new request/response method in RADIUS: the Status-Realm-Request and Status-Realm-Response. The Status-Realm-Request is similar to the previously described and widely implemented Status-Server message [RFC5997], and no additional security considerations are known to relate to the implementation or use of Status-Server. This option differs from Status-Server because it is forwarded through proxies, so it can be sent to a RADIUS Server that does not have a direct connection to the Status-Realm RADIUS Client. However, Access-Request packets are also forwarded, and there should be no additional attacks other than those incurred by forwarding Status-Realm-Request packets.
 
 Attacks on cryptographic hashes are well known [RFC4270] and getting better with time. RADIUS uses the MD5 hash [RFC1321] for packet authentication and attribute obfuscation. There are ongoing efforts in the IETF to analyze and address these issues for the RADIUS protocol.
+
+The Server-Information Attribute section describes a pair of sub-attributes to represent the IPv4 and IPv6 addresses of a particular RADIUS server. Vendors and operators should be aware that including this sub-attribute has the potential to divulge information about private networks, if the RADIUS server is accessible from outside the private network. In the case where a RADIUS server lies behind a network translation and the operator desires to include the server-IP-Address or Server-IPv6-Address sub-attribute, the operator SHOULD configure the RADIUS Server to use the publicly routed IP address of the translation as the value of the sub-attribute.
 
 Security Considerations for Loop Prevention are TBD.
 
