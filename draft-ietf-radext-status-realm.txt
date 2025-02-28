@@ -5,12 +5,12 @@
 RADIUS EXTensions                                              M. Cullen
 Internet-Draft                                         Painless Security
 Intended status: Standards Track                                A. DeKok
-Expires: 9 August 2025                                        FreeRADIUS
+Expires: 1 September 2025                                     FreeRADIUS
                                                              M. Donnelly
                                                        Painless Security
                                                               J. Howlett
                                                      Federated Solutions
-                                                         5 February 2025
+                                                        28 February 2025
 
 
   Status-Realm and Loop Prevention for the Remote Dial-In User Service
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 August 2025.
+   This Internet-Draft will expire on 1 September 2025.
 
 Copyright Notice
 
@@ -497,17 +497,32 @@ Table of Contents
    multiple sub-attributes are present, a RADIUS proxy MUST match all of
    the sub-attributes in order to match the identifier.
 
-   The following sub-attributes may be included in the value field of a
-   Server-Information Attribute.  The Type code for each sub-attribute
-   is included in parenthesis.
+   The following sub-attributes are defined for the Server-Information
+   attribute.
 
-   *  Server-Operator (Type = 1)
+                      +=====================+======+
+                      | Name                | Type |
+                      +=====================+======+
+                      | Server-Operator     | 1    |
+                      +---------------------+------+
+                      | Server-Identifier   | 2    |
+                      +---------------------+------+
+                      | Hop-Count           | 3    |
+                      +---------------------+------+
+                      | Time-Delta          | 4    |
+                      +---------------------+------+
+                      | Server-IP-Address   | 5    |
+                      +---------------------+------+
+                      | Server-IPv6-Address | 6    |
+                      +---------------------+------+
 
-   *  Server-Identifier (Type = 2)
+                                 Table 1
 
-   *  Hop-Count (Type = 3)
-
-   *  Time-Delta (Type = 4)
+   The Server-Information attribute may include any of Server-Operator,
+   Hop-Count, and Time-Delta.  The Server-Information attribute may also
+   include any one of Server-Identifier OR Server-IP-Address OR Server-
+   IPv6-Address.  The attribute SHOULD NOT include more than one of
+   Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
 
    The Server-Operator has data type 'string'.  It is the analogue of
    the Operator-Name, as defined in [RFC5580].
@@ -521,6 +536,14 @@ Table of Contents
    The Time-Delta attribute has data type 'integer'.  It represents the
    number of milliseconds the request took to return through this proxy
    server.  For the target server, this value SHOULD be 0.
+
+   The Server-IP-Address has data type 'ipv4addr' and represents the
+   IPv4 address of this particular proxy server.  Similarly, the Server-
+   IPv6-Address has data type 'ipv6addr' and represents the IPv6 address
+   of this particular proxy server.  Given the prevalance of network
+   translation, it will be common for a server to be unaware of its
+   commonly used address; therefore, a RADIUS Server SHOULD allow its
+   administrator to configure the values used for these attributes.
 
 8.1.  Status-Realm Responding-Server
 
@@ -937,6 +960,17 @@ Table of Contents
    authentication and attribute obfuscation.  There are ongoing efforts
    in the IETF to analyze and address these issues for the RADIUS
    protocol.
+
+   The Server-Information Attribute section describes a pair of sub-
+   attributes to represent the IPv4 and IPv6 addresses of a particular
+   RADIUS server.  Vendors and operators should be aware that including
+   this sub-attribute has the potential to divulge information about
+   private networks, if the RADIUS server is accessible from outside the
+   private network.  In the case where a RADIUS server lies behind a
+   network translation and the operator desires to include the server-
+   IP-Address or Server-IPv6-Address sub-attribute, the operator SHOULD
+   configure the RADIUS Server to use the publicly routed IP address of
+   the translation as the value of the sub-attribute.
 
    Security Considerations for Loop Prevention are TBD.
 
