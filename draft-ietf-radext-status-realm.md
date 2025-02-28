@@ -273,7 +273,7 @@ The following sub-attributes are defined for the Server-Information attribute.
 | Server-IP-Address   | 5    |
 | Server-IPv6-Address | 6    |
 
-The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier, Server-IP-Address, or Server-IPv6-Address.  The attribute SHOULD NOT include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
+The Server-Information attribute may include any of Server-Operator, Hop-Count, and Time-Delta.  The Server-Information attribute may also include any one of Server-Identifier OR Server-IP-Address OR Server-IPv6-Address.  The attribute SHOULD NOT include more than one of Server-Identifier, Server-IP-Address, and Server-IPv6-Address.
 
 The Server-Operator has data type 'string'. It is the analogue of the Operator-Name, as defined in [RFC5580].
 
