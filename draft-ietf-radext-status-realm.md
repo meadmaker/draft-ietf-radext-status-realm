@@ -174,6 +174,8 @@ This section describes the RADIUS packet formats for Status-Realm-Request and St
 
 Status-Realm-Request packets reuse the RADIUS packet format, with the fields and values for those fields as defined in [RFC2865], Section 3.
 
+A Status-Realm-Request packet MUST be tracked separately from RADIUS packets with different RADIUS codes.  Thus, a Status-Realm-Request identifier will not be considered a duplicate of an identifier for any other RADIUS code.
+
 A Status-Realm-Request packet MUST include a Message-Authenticator attribute, as defined in [RFC2869], section 5.14. The Message-Authenticator provides per-packet authentication and integrity protection. The Authenticator field of a Status-Realm-Request packet MUST be generated using the same method as that used for the Request Authenticator field of Access-Request packets.
 
 A Status-Realm-Request packets MUST include a User-Name Attribute, containing the Target Realm for the Request. The 'user' portion of the User-Name SHOULD be ignored, if present.
