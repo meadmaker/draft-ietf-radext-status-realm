@@ -182,7 +182,7 @@ A Status-Realm-Request message MUST also include a Max-Hop-Count attribute, as d
 
 Status-Realm-Requests MAY include NAS-Identifier, and one of (NAS-IP-Address or NAS-IPv6-Address). These attributes are not necessary for the operation of Status-Realm, but may be useful information to a server that receives those packets.
 
-Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).  When a RADIUS Server receives a Status-Realm-Request with authentication credentials, it MUST respond with a Status-Realm-Response, and that Status-Realm-Response MUST contain a Status-Realm-Response-Code Attribute with Response-Code 260, Invalid Contents, user credential included.
+Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).  When a RADIUS Server receives a Status-Realm-Request with authentication credentials, it MUST respond with a Status-Realm-Response, and that Status-Realm-Response MUST contain a Status-Realm-Response-Code Attribute with Response-Code 503, Invalid Contents, user credential included.
 
 ## Status-Realm-Response Packet
 
@@ -220,38 +220,49 @@ This section defines a new RADIUS attribute, Status-Realm-Response-Code (TBD). T
 * Hop-Count (Type = 2)
 * Responding-Server (Type = 3)
 
-Response-Code has data type 'integer', as defined in [RFC8044], Section 3.1. Exactly one Response-Code sub-attribute MUST be included in in every Status-Realm-Response-Code attribute. It will contain one of the following values:
+Response-Code has data type 'integer', as defined in [RFC8044], Section 3.1. Exactly one Response-Code sub-attribute MUST be included in in every Status-Realm-Response-Code attribute. Response-Code values are grouped into one of several ranges:
 
-~~~~
-   0        The target realm is available
+| Range   | Meaning             |
+|---------|---------------------|
+| 200-299 | Successful response |
+| 300-399 | Status unknown      |
+| 400-499 | Realm unreachable   |
+| 500-599 | Server error        |
 
-   1        No proxy route to the target realm
-   2        No available servers for the target realm
-   3        The target realm is missing or invalid
-   4        Max-Hop-Count exceeded
+The Response-Code value will be one of:
 
-   5-255    Unspecified error, the target realm is unreachable
+| Code | Meaning                                                  |
+|------|----------------------------------------------------------|
+| 200  | The target realm is available                            |
+| 300  | Administratively prohibited, target realm status unknown |
+| 400  | No proxy route to the target realm                       |
+| 401  | No available servers for the target realm                |
+| 402  | The target realm is missing or invalid                   |
+| 403  | Max-Hop-Count exceeded                                   |
+| 500  | Internal error, target realm status unknown              |
+| 501  | Bad Status-Realm-Request, missing or invalid Target Realm in the request message, target realm status unknown  |
+| 502  | Bad Status-Realm-Request, missing or invalid Max-Hop-Count, target realm status unknown                        |
+| 503  | Invalid Contents, user credential included               |
 
-   256      Administratively prohibited, target realm status
-            unknown
+Code 200 MUST be returned when the target of the Status-Realm-Request is available.
 
-   257      Internal error, target realm status unknown
+Code 300 SHOULD be returned when the RADIUS Proxy is configured not to forward a Status-Realm-Request packet to the Target Realm and the RADIUS Proxy does not have other methods to detect the status of the Target Realm.
 
-   258      Bad Status-Realm-Request, missing or invalid
-            Target Realm in the request message, target
-            realm status unknown
+Code 400 MUST be returned when the RADIUS Proxy server does not have a route to the Target Realm.
 
-   259      Bad Status-Realm-Request, missing or invalid
-            Max-Hop-Count, target realm status unknown
+Code 401 SHOULD be returned when the RADISU Server has a direct connection to the Target Realm RADIUS Server, is configured not to forward Status-Realm-Request packets to the Target Realm RADIUS Server, and the RADIUS Server believes that the Target Realm RADIUS Server is currently unreachable.  An example of a reason to believe that the Target Realm RADIUS Server is unreachable is that the Target Realm RADIUS Server has not responded to recent valid RADIUS requests.
 
-   260      Invalid Contents, user credential included
+Code 402 MUST be returned when a Status-Realm-Request specifies a realm with a valid format and the RADIUS Server knows that realm does not exist.  For example, consider a RADIUS server is configured to be authoritative for all realms ending in ".invalid" that receives a request for "example.invalid" but does not have an entry for "example.invalid."  This server MUST return code 402.
 
-   261-511  Unspecified error, Target Realm status unknown
+Code 403 MUST be returned if the Max-Hop-Count is equal to zero (0).
 
-   512+     Reserved
-~~~~
+Code 500 SHOULD be returned if the RADIUS Server encounters an error not detailed in this document.
 
-Response-Code values from 0 to 255 indicate the status of the target realm on the RADIUS network. Response-Code values from 256 to 511 indicate errors in processing the Status-Realm request, and cannot indicate the status of the target realm.
+Code 501 SHOULD be returned if the Status-Realm-Request contains a Target Realm that is invalid.  An example of an invalid Target Realm would be "_invalid_", which does not follow the rules for DNS hostnames.
+
+Code 502 SHOULD be returned when the Status-Realm-Request does not contain the Max-Hop-Count attribute.
+
+Code 503 MAY be returned when the Status-Realm-Request contains a User-Name attribute that includes a username.  If the RADIUS Server instead forwards the Status-Realm-Request to another RADIUS Server, then it MUST strip the username part of the credential from the User-Name attribute, leaving the Target Realm.
 
 Hop-Count has data type 'integer'. Valid values are 0-255. The value of this sub-attribute MUST be set to the value of the Max-Hop-Count attribute in the received Status-Realm-Request. If no Max-Hop-Count is included in the Status-Realm-Request message, this sub-attribute MUST be omitted.
 
@@ -303,7 +314,7 @@ If a Status-Realm request targeting "target-realm" is routed over proxy servers 
   - Hop-Count: 31
   - Time-Delta: 60
 - Status-Realm-Response-Code:
-  - Response-Code: 0 (Available)
+  - Response-Code: 200 (Available)
   - Hop-Count: 30
   - Responding-Server:
     - Server-Operator: target-realm
@@ -348,7 +359,7 @@ If the Target Realm does not match a local realm, then the server should determi
 
 Servers SHOULD NOT discard Status-Realm packets merely because they have recently sent the RADIUS Client a response packet. The query may have originated from an administrator who does not have access to the response packet stream or one who is interested in obtaining additional information about the server.
 
-The server MAY decide to send an error response to a Status-Realm-Request packet based on local-site policy. For example, a server that is running but is unable to perform its normal duties SHOULD send a Status-Realm-Response packet indicating an internal error (Status-Server-Response-Code = 257). This situation can happen, for example, when a server requires access to a database for normal operation, but the connection to that database is down. Or, it may happen when the accepted load on the server is lower than the current load.
+The server MAY decide to send an error response to a Status-Realm-Request packet based on local-site policy. For example, a server that is running but is unable to perform its normal duties SHOULD send a Status-Realm-Response packet indicating an internal error (Status-Server-Response-Code = 500). This situation can happen, for example, when a server requires access to a database for normal operation, but the connection to that database is down. Or, it may happen when the accepted load on the server is lower than the current load.
 
 The server MAY increment packet counters or create log entries as a result of receiving a Status-Realm-Request packet or sending a Status-Realm-Response packet. The server SHOULD NOT perform any other action that is normally performed when it receives a Request packet, other than sending a Response packet.
 
@@ -360,13 +371,13 @@ Note that [RFC2865], Section 3, defines a number of RADIUS Codes, but does not m
 
 Many RADIUS servers act as RADIUS proxies, forwarding requests to other RADIUS servers. Such servers SHOULD proxy Status-Realm-Request packets to enable RADIUS Clients to determine the status of Authentication Realms that are not directly connected to the RADIUS Client.
 
-RADIUS proxies that support Status-Realm-Requests MUST support the Max-Hop-Count attribute defined above. Before forwarding a Status-Realm-Request packet, a proxy MUST check the Max-Hop-Count Attribute. If the Max-Hop-Count attribute is present and the Count is zero (0), the proxy MUST send a Status-Realm-Response indicating that the hop count has been exceeded (Status-Server-Response-Code = 4), and MUST NOT forward the packet. If the Max-Hop-Count attribute is present, and the Count value is not zero, the proxy MUST decrement the Max-Hop-Count value before forwarding the packet.
+RADIUS proxies that support Status-Realm-Requests MUST support the Max-Hop-Count attribute defined above. Before forwarding a Status-Realm-Request packet, a proxy MUST check the Max-Hop-Count Attribute. If the Max-Hop-Count attribute is present and the Count is zero (0), the proxy MUST send a Status-Realm-Response indicating that the hop count has been exceeded (Status-Server-Response-Code = 403), and MUST NOT forward the packet. If the Max-Hop-Count attribute is present, and the Count value is not zero, the proxy MUST decrement the Max-Hop-Count value before forwarding the packet.
 
-The RADIUS proxy MUST check the "realm" portion of the User-Name attribute in the Status-Realm-Request to determine the Target Realm for the request. If the target realm is missing or malformed, the RADIUS proxy MUST send a Status-Realm-Response indicating an invalid realm (Status-Server-Response-Code = 3). If the realm is properly formed, the Status-Realm-Request packet should be proxied toward the Target Realm, using the same next-hop RADIUS server that the proxy server would use for other request packets received on the same port.
+The RADIUS proxy MUST check the "realm" portion of the User-Name attribute in the Status-Realm-Request to determine the Target Realm for the request. If the target realm is missing or malformed, the RADIUS proxy MUST send a Status-Realm-Response indicating an invalid realm (Status-Server-Response-Code = 402). If the realm is properly formed, the Status-Realm-Request packet should be proxied toward the Target Realm, using the same next-hop RADIUS server that the proxy server would use for other request packets received on the same port.
 
-In some cases, a RADIUS proxy may not have an available next-hop RADIUS server for the Target Realm. In that case, the RADIUS proxy server MUST send a Status-Realm-Response packet indicating that there is no proxy route to the Target Realm (Status-Server-Response-Code = 1).
+In some cases, a RADIUS proxy may not have an available next-hop RADIUS server for the Target Realm. In that case, the RADIUS proxy server MUST send a Status-Realm-Response packet indicating that there is no proxy route to the Target Realm (Status-Server-Response-Code = 400).
 
-In cases where a RADIUS proxy is configured to have a direct connection to the RADIUS server(s) of the Target Realm, but is configured not to forward Status-Realm-Request packets to the target server(s), the proxy MAY use other methods to determine the status of the Target Realm (such as Status-Server packets or recent Access-Request state information), and send a Status-Realm-Response indicating the determined state of the Target Realm (Status-Server-Response-Code = 0 or 2). If the proxy is configured not to forward Status-Realm-Request packet to the Target Realm and does not have other methods to detect the status of the Target Realm, it SHOULD return a Status-Realm-Response packet indicating that the request is administrative prohibited (Status-Server-Response-Code = 257).
+In cases where a RADIUS proxy is configured to have a direct connection to the RADIUS server(s) of the Target Realm, but is configured not to forward Status-Realm-Request packets to the target server(s), the proxy MAY use other methods to determine the status of the Target Realm (such as Status-Server packets or recent Access-Request state information), and send a Status-Realm-Response indicating the determined state of the Target Realm (Status-Server-Response-Code = 200 or 401). If the proxy is configured not to forward Status-Realm-Request packet to the Target Realm and does not have other methods to detect the status of the Target Realm, it SHOULD return a Status-Realm-Response packet indicating that the request is administratively prohibited (Status-Server-Response-Code = 300).
 
 If the Status-Realm-Request packet includes a Max-Hop-Count attribute, that attribute (with its current value) MUST be returned in any corresponding Status-Realm-Response packet.
 
