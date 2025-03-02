@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T00:40:59.899824+00:00",
+  "timestamp": "2025-03-02T00:44:19.768113+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -122,7 +122,7 @@
       "id": "I_kwDONtL-Cc6neV4Q",
       "title": "In Server-Information, would a Server-IP-Address sub-attribute be useful?",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -131,8 +131,8 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-01-24T15:39:25Z",
-      "updatedAt": "2025-01-27T02:52:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-28T04:35:30Z",
+      "closedAt": "2025-02-28T04:35:30Z",
       "comments": [
         {
           "author": "alandekok",
@@ -155,7 +155,7 @@
       "id": "I_kwDONtL-Cc6neZHq",
       "title": "Should we have an explicit requirement for `@` in Status-Realm requests' User-Name field?",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -164,8 +164,8 @@
       "labels": [],
       "body": "[Section 9.1](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-9.1-3) states:\n> The RADIUS Client MUST include a User-Name attribute in the request. The \"user\" portion of the username SHOULD be omitted. The \"realm\" portion of the username is the target realm for the Status-Realm request.\n\nIs it worth being explicit about whether the `@` part of the User-Name is required?  On the one hand, it would be easy to assume that all you need is `example.com`; on the other hand, if you look up the definition of the User-Name attribute, you eventually discover that the `@` is required if you want to describe a realm.  That said... you have to bother to wade through multiple documents before you discover the definition of a Network Access Identifier that requires the `@`.",
       "createdAt": "2025-01-24T15:46:03Z",
-      "updatedAt": "2025-01-24T18:44:13Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-28T04:36:32Z",
+      "closedAt": "2025-02-28T04:36:32Z",
       "comments": [
         {
           "author": "alandekok",
@@ -233,7 +233,7 @@
       "id": "I_kwDONtL-Cc6nee4t",
       "title": "Does \"available\" mean \"Is it alive/dead\", or does it mean \"Is it configured at all\"?",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -242,8 +242,8 @@
       "labels": [],
       "body": "[Section 9.3](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-9.3-4) states:\n> In some cases, a RADIUS proxy may not have an available next-hop RADIUS server for the Target Realm. In that case, the RADIUS proxy server MUST send a Status-Realm-Response packet indicating that there is no proxy route to the Target Realm (Status-Server-Response-Code = 1).\n\n\"Available\" could be talking about either the question of whether the RADIUS proxy is configured to know about the Target Realm at all, or it could be talking about whether the RADIUS proxy thinks that the next hop RADIUS server is reachable (alive/dead).  Which of these does this paragraph describe?  Should the behavior be different between these two cases?",
       "createdAt": "2025-01-24T15:57:26Z",
-      "updatedAt": "2025-01-27T16:10:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-01T21:42:06Z",
+      "closedAt": "2025-03-01T21:42:06Z",
       "comments": [
         {
           "author": "alandekok",
@@ -266,7 +266,7 @@
       "id": "I_kwDONtL-Cc6neg1x",
       "title": "Incorrect code number used?",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -276,8 +276,8 @@
       "labels": [],
       "body": "[Section 9.3](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-9.3-5) says:\n\n> If the proxy is configured not to forward Status-Realm-Request packet to the Target Realm and does not have other methods to detect the status of the Target Realm, it SHOULD return a Status-Realm-Response packet indicating that the request is administrative prohibited (Status-Server-Response-Code = 257)\n\n[Section 7](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-7-4) says:\n\n>    256      Administratively prohibited, target realm status unknown\n>    257      Internal error, target realm status unknown\n\nIs this an accidental mismatch, or am I missing how that description maps to that attribute?",
       "createdAt": "2025-01-24T16:01:24Z",
-      "updatedAt": "2025-01-24T18:31:01Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-01T21:42:06Z",
+      "closedAt": "2025-03-01T21:42:06Z",
       "comments": [
         {
           "author": "alandekok",
@@ -291,7 +291,7 @@
     {
       "number": 9,
       "id": "I_kwDONtL-Cc6nekjJ",
-      "title": "Fill in example changes",
+      "title": "Fill in example exchanges",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/9",
       "state": "OPEN",
       "author": "meadmaker",
@@ -302,7 +302,7 @@
       "labels": [],
       "body": "Sections 10.1 and 12.1 want to give message exchange examples, but are not filled in.",
       "createdAt": "2025-01-24T16:08:41Z",
-      "updatedAt": "2025-01-24T16:08:41Z",
+      "updatedAt": "2025-03-01T22:43:42Z",
       "closedAt": null,
       "comments": []
     },
@@ -461,7 +461,7 @@
       "labels": [],
       "body": "The draft says that Status-Realm requests MUST NOT contain credentials, but doesn't say how to react if a request packet does.  Update to specify an error code to return in this case.\r\n\r\nFixes #1 ",
       "createdAt": "2025-01-27T02:46:53Z",
-      "updatedAt": "2025-02-05T21:28:36Z",
+      "updatedAt": "2025-02-28T04:24:12Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
@@ -490,24 +490,26 @@
       "id": "PR_kwDONtL-Cc6JB9vi",
       "title": "Define Server IP Address sub-attributes in Server-Information",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/18",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Define sub-attributes for v4 and v6 addresses, and suggest that people configure the values of any NAT system as the values, when applicable.\r\n\r\nAlso, include in the Security Considerations that this has the potential to divulge information, and again suggest that people configure the RADIUS server to return the publicly known IP addresses when applicable.\r\n\r\nFixes #3 ",
       "createdAt": "2025-01-27T03:18:28Z",
-      "updatedAt": "2025-02-05T23:54:29Z",
+      "updatedAt": "2025-02-28T04:35:33Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "305be38eae992cc7fea0b34fb1eccf09588af6ba",
       "headRepository": "meadmaker/draft-ietf-radext-status-realm",
       "headRefName": "fix/3",
-      "headRefOid": "6608ac2d897b588254f6d5522908bc3cd8e77161",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "7764e3dd1e8f70d254946815b5c2a2d0fa67b72c",
+      "closedAt": "2025-02-28T04:35:29Z",
+      "mergedAt": "2025-02-28T04:35:29Z",
+      "mergedBy": "meadmaker",
+      "mergeCommit": {
+        "oid": "59ee35b8b2c1aa757df5bf7d01520b8ad2213ff3"
+      },
       "comments": [
         {
           "author": "alandekok",
@@ -524,24 +526,26 @@
       "id": "PR_kwDONtL-Cc6KNSrW",
       "title": "Use the \"@realm\" form of the NAI",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/19",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Change to be explicit about having the User-Name attribute's value be a Network Access Identifier of the second form, \"@realm\".\r\n\r\nFixes #4",
       "createdAt": "2025-02-05T23:56:49Z",
-      "updatedAt": "2025-02-05T23:56:49Z",
+      "updatedAt": "2025-02-28T04:36:35Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "0d921a26c73459ef5d62db378014efbccbab4099",
       "headRepository": "meadmaker/draft-ietf-radext-status-realm",
       "headRefName": "fix/4",
       "headRefOid": "fcf47427f7623308deab8eaded78802676e172c6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-02-28T04:36:31Z",
+      "mergedAt": "2025-02-28T04:36:31Z",
+      "mergedBy": "meadmaker",
+      "mergeCommit": {
+        "oid": "7975fbebdee594bc28ac0cec3db77f947dae801b"
+      },
       "comments": [],
       "reviews": []
     },
@@ -550,24 +554,26 @@
       "id": "PR_kwDONtL-Cc6KNiTi",
       "title": "Rework the response codes",
       "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/20",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "meadmaker",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "Taken from discussion in #8, rework the Status-Realm response codes.",
       "createdAt": "2025-02-06T01:11:28Z",
-      "updatedAt": "2025-02-06T01:12:30Z",
+      "updatedAt": "2025-03-01T21:42:16Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "0d921a26c73459ef5d62db378014efbccbab4099",
       "headRepository": "meadmaker/draft-ietf-radext-status-realm",
       "headRefName": "fix/8",
-      "headRefOid": "cf96e5cc2a66ad3e9eaff5879a8e966a93f8dccb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "e4a02e5d481ca316bbbbc7dc14a64260141b7d46",
+      "closedAt": "2025-03-01T21:42:05Z",
+      "mergedAt": "2025-03-01T21:42:05Z",
+      "mergedBy": "meadmaker",
+      "mergeCommit": {
+        "oid": "4565032fa963e8028808f803878d7693587356f0"
+      },
       "comments": [],
       "reviews": []
     }
