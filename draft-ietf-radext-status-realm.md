@@ -29,8 +29,8 @@ author:
     phone: +1 (781)405-7464
  -
     fullname: Alan DeKok
-    organization: FreeRADIUS
-    email: aland@freeradius.org
+    organization: InkBridge Networks
+    email: alan.dekok@inkbridge.io
  -
     fullname: Mark Donnelly
     organization: Painless Security
@@ -137,7 +137,7 @@ First-Hop Server
 Last-Hop Proxy
 : The Last-Hop Proxy is the last RADIUS Proxy to forward a RADIUS Request before it reaches the Authentication Server. Depending on its configuraiton, the Last-Hop Proxy may or may not know that is the Last-Hop Proxy for a given RADIUS Request.
 
-Note: It is possible for a single RADIUS instance to server in multiple roles. For example, it is common for a RADIUS Server to act as an Authentication Server for some Realms, while acting as a Proxy for other Realms. A RADIUS Proxy will, by its nature, act as a RADIUS Server for some RADIUS messages while acting as a RADIUS Client for others. The requirements in this document apply to all RADIUS instances whenever they are acting in the role to which the requirement applies.
+Note: It is possible for a single RADIUS Instance to serve in multiple roles. For example, it is common for a RADIUS Server to act as an Authentication Server for some Realms, while acting as a Proxy for other Realms. A RADIUS Proxy will, by its nature, act as a RADIUS Server for some RADIUS messages while acting as a RADIUS Client for others. The requirements in this document apply to all RADIUS Instances whenever they are acting in the role to which the requirement applies.
 
 
 # Overview
@@ -145,23 +145,22 @@ This document defines two functional extensions to RADIUS: Querying the status o
 
 
 ## Status-Realm Overview
-Status-Realm-Request messages are sent by RADIUS Clients to to query the reachability and status of a particular Target Realm. In some cases, the Status-Realm RADIUS Client may be able to reach an Authentication Server for the Target Realm directly. In other cases, the RADIUS Client will send the initial Status-Realm request to a RADIUS Proxy, which will forward the Status-Realm-Request toward the indicated realm.
+Status-Realm-Request messages are sent by RADIUS Clients to to query the reachability and status of a particular Target Realm. In some cases, the RADIUS Client may be able to reach an Authentication Server for the Target Realm directly. In other cases, the RADIUS Client will send the initial Status-Realm request to a RADIUS Proxy, which will forward the Status-Realm-Request toward the indicated realm.
 
 Status-Realm-Requests may be sent to the RADIUS authentication port or the RADIUS accounting port of the first-hop RADIUS server. RADIUS proxies should forward Status-Realm-Requests received on the authentication port to the authentication port of the next-hop RADIUS server. Status-Realm-Requests received on the accounting port should, similarly, be forwarded to the accounting port of the next-hop server.
 
-When a Status-Realm-Request packet is received by an Authentication Server for the Target Realm, the Authentication Server MUST respond with a Status-Realm-Response packet.
+When a Status-Realm-Request packet is received by an RADIUS Server for the Target Realm, the RADIUS Server MUST respond with a Status-Realm-Response packet.
 
-If an intermediate RADIUS Proxy is unable to forward a Status-Realm-Request packet towards the Target Realm, either because it has no information about how to reach the Target Realm, or because there are no reachable Authentication Servers for the Target Realm, the RADIUS Proxy MUST return a Status-Realm-Response packet containing a Status-Realm-Response-Code attribute.
+If a RADIUS Proxy is unable to forward a Status-Realm-Request packet towards the Target Realm, either because it has no information about how to reach the Target Realm, or because there are no reachable RADIUS Servers for the Target Realm, the RADIUS Proxy MUST return a Status-Realm-Response packet containing a Status-Realm-Response-Code attribute.
 
-Status-Realm packets allow the sender to determine the reachability and status of a Authentication Realm, without requiring a direct RADIUS connection to a RADIUS Server for the Target realm, and without requiring credentials for an authorized user within that realm. This can be useful for debugging RADIUS authentication issues, identifying routing issues within a RADIUS proxy fabric, or monitoring realm availability.
+Status-Realm packets allow the sender to determine the reachability and status of a Realm, without requiring a direct RADIUS connection to a RADIUS Server for the Target Realm, and without requiring credentials for an authorized user within that Realm. This can be useful for debugging RADIUS authentication issues, identifying routing issues within a RADIUS proxy fabric, or monitoring realm availability.
 
-Using the Max-Hop-Count attribute defined in this document, RADIUS Clients can also implement "traceroute-like" functionality, discovering a series of proxies on route to a target realm.
-
-
-## RADIUS Loop Prevention Overview
+## Proxy Chains and Loops
 RADIUS Proxies are configured to know which next-hop RADIUS Server to use for a given Target Realm. There is no dynamic routing protocol or tree-spanning protocol in use, so Proxy Loops are a common occurence due to misconfiguration. These loops can be controlled or prevented using implementation-specific or operator-specific mechanisms, but it would be useful to have well-defined, common mechanism.
 
 The Max-Hop-Count attribute described in this document can be used to mitigate the damage caused by Proxy Loops. The Max-Hop-Count attribute is set to a small integer by the RADIUS Client or First-Hop RADIUS Server. The value is decremented each time a RADIUS message is proxied. When the Max-Hop-Count reaches zero, the request is discarded, ending the loop.
+
+RADIUS Clients can also use the  Max-Hop-Count attribute to implement "traceroute-like" functionality.  By setting the Max-Hop-Count value to a series of increasing values, it is possible to discover the proxies which route packets to a target realm.  As there is no relationship between independent Status-Realm packets, the path (or partial path) discovered by one Status-Realm packet is likely to be differerent from the path discovered by a different Sgtatus-Realm packet.
 
 This document also defines a more effective method of detecting and preventing Proxy Forwarding Loops: RADIUS Loop Prevention. This document defines a RADIUS Server-Identifier attribute that is used to uniquely identify a RADIUS Server. When a RADIUS Proxy receives a RADIUS Request packet, it checks to see if the Request contains a Server-Identifier attribute indicating that it has already processed this packet. If so, it discards the packet. If not, it adds its own Server Identifier to the packet before forwarding it.
 
@@ -174,9 +173,9 @@ This section describes the RADIUS packet formats for Status-Realm-Request and St
 
 Status-Realm-Request packets reuse the RADIUS packet format, with the fields and values for those fields as defined in [RFC2865], Section 3.
 
-A Status-Realm-Request packet MUST include a Message-Authenticator attribute, as defined in [RFC2869], section 5.14. The Message-Authenticator provides per-packet authentication and integrity protection. The Authenticator field of a Status-Realm-Request packet MUST be generated using the same method as that used for the Request Authenticator field of Access-Request packets.
+A Status-Realm-Request packet MUST include a Message-Authenticator ([RFC2869], section 5.14) as the first attribute in the packet. The Message-Authenticator provides per-packet authentication and integrity protection. The Authenticator field of a Status-Realm-Request packet MUST be generated using the same method as that used for the Request Authenticator field of Access-Request packets.  As a result, all of the security issues for Access-Request also apply to Status-Realm-Request.
 
-A Status-Realm-Request packets MUST include a User-Name Attribute, containing the Target Realm for the Request. The 'user' portion of the User-Name SHOULD be ignored, if present.
+A Status-Realm-Request packets MUST include a User-Name attribute which the Target Realm for the Request. The 'user' portion of the User-Name SHOULD be ignored, if present.
 
 A Status-Realm-Request message MUST also include a Max-Hop-Count attribute, as defined below.
 
@@ -188,24 +187,26 @@ Status-Realm-Request packets MUST NOT contain authentication credentials (such a
 
 Status-Realm-Response packets reuse the RADIUS packet format, with the fields and values for those fields as defined in [RFC2865], Section 3.
 
-The Response Authenticator field of a Status-Realm-Response packet MUST be generated using the same method used for calculating the Response Authenticator of an Access-Accept or an Access-Reject sent in response to an Access-Request, with the Status-Realm-Request Request Authenticator taking the place of the Access-Request Request Authenticator.
+The Response Authenticator field of a Status-Realm-Response packet MUST be generated using the same method used for calculating the Response Authenticator of an Access-Accept sent in response to an Access-Request, with the Status-Realm-Request Request Authenticator taking the place of the Access-Request Request Authenticator.
 
 The Status-Realm-Response packet MUST contain a Status-Realm-Response-Code attribute, as defined below, indicating the results of the Status-Realm request.
 
 The Status-Realm-Response packet MAY contain the following attributes: Reply-Message, Message-Authenticator, Server-Information.
 
-Note that when a server responds to a Status-Realm-Request packet, it MUST NOT send more than one Status-Realm-Response packet.
+When a server responds to a Status-Realm-Request packet, it MUST NOT send more than one Status-Realm-Response packet.
 
 
 # Max-Hop-Count Attribute
 
 This section defines a new RADIUS attribute, Max-Hop-Count (TBD). The value of the Max-Hop-Count attribute is an integer, as defined in [RFC8044], Section 3.1. Valid values are small positive integers, 0 to 255.
 
-This attribute is used to limit the number of RADIUS servers that will proxy a packet before it reaches its final destination. When a RADIUS server that implements the Max-Hop-Count Attribute determines that it wants to proxy a RADIUS Request to another RADIUS Server, it will check the Max-Hop-Count attribute. If the Max-Hop-Count attribute is present and the value is zero, the Request MUST NOT be forwarded and an error response SHOULD be returned, as appropriate to the request type. If the Max-Hop-Count is greater than zero, the proxy server MUST decrement the hop count by 1 before forwarding the request.
+This attribute is used to limit the number of RADIUS Proxy hops that a packet will pass through before either it times out, or it reaches its final destination. Before a RADIUS Proxy forwards a Status-Realm-Request packet, it MUST check the Max-Hop-Count attribute. If the Max-Hop-Count attribute is present and the value is zero, the Request MUST NOT be forwarded and an error response SHOULD be returned, as appropriate to the request type. If the Max-Hop-Count is greater than zero, the proxy server MUST decrement the hop count by 1 before forwarding the request.
+
+A RADIUS server which will not proxy the Status-Realm-Request packet MUST ignore the value of the Max-Hop-Count attribute.
 
 In the context of Status-Realm-Requests, this attribute can be used to implement "traceroute-like" functionality. By sending a series of Status-Realm-Requests with incremented values of Max-Hop-Count, starting with a Max-Hop-Count value of 0, the RADIUS Client will receive a series of Status-Realm-Responses from the RADIUS Proxies on the Proxy Path to a given Target Realm.
 
-When used on other types of RADIUS Request messages, this option can mitigate the damage caused by RADIUS proxy loops. It is therefore possible that a RADIUS Client or a RADIUS proxy server will support the Max-Hop-Count attribute, even if they do not support Status-Realm. When used to limit RADIUS proxy loops, it is RECOMMENDED that the value of the Max-Hop-Count attribute be set to 32, by default.
+The Max-Hop-Count attribute can used with other types of RADIUS Request messages, in order to mitigate the damage caused by RADIUS proxy loops. It is therefore possible that a RADIUS Client or a RADIUS Proxy will support the Max-Hop-Count attribute, even if they do not support Status-Realm. When used to limit RADIUS Proxy loops, it is RECOMMENDED that the value of the Max-Hop-Count attribute be set to 32, by default.
 
 For any type of RADIUS request message, setting the Max-Hop-Count attribute to 0 effectively requests that the request message not be proxied. Setting the attribute to a value greater than 0 requests that the request message be proxied across at most that many intermediate proxies between the visited and home server.
 
@@ -271,7 +272,7 @@ Responding-Server has data type 'tlv', as defined in [RFC8044], Section 3.13. Th
 
 # Server-Information Attribute
 
-The Server-Information attribute is used to identify a specific RADIUS Server. It MAY be added to any RADIUS Request message to indicate that a particular RADIUS Server has processed the Request. If present in a RADIUS Request, it SHOULD be copied into the corresponding RADIUS Response. RADIUS Servers SHOULD NOT add Server-Information attributes to Response messages when processing Responses.
+The Server-Information attribute is used to identify a specific RADIUS Server. A RADIUS Proxy MAY append its own Server-Informatin to any RADIUS Request message it proxies, to indicate that it has processed the Request.  A RADIUS Server MAY include its own Server-Information in any RADIUS Response message that it sends, to indicate that it has processed the requyest.  A RADIUS Proxy which receives a RADIUS Response message SHOULD include its own Server-Information in any RADIUS Response message that it sends.  A RADIUS Proxy which receives a Response message containing Server-Information attributes SHOULD then append those to any Response message that it sends (i.e. after its own Server-Information).  A RADIUS Proxiy MUST NOT modify any existing Server-Information attributes in Response messages which they receive.
 
 This attribute has data type 'tlv', as defined in [RFC8044], Section 3.13. The value of this attribute consists of a set of sub-attributes, all of type 'tlv'. Each sub-attribute contains an identifier for a RADIUS proxy. The Server-Identifier MUST have at least one sub-attribute and MAY have more than one sub-attribute. If multiple sub-attributes are present, a RADIUS proxy MUST match all of the sub-attributes in order to match the identifier.
 
