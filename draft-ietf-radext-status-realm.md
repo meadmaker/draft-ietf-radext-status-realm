@@ -111,7 +111,7 @@ RADIUS Proxy Fabric
 : A multi-hop group of inter-connected RADIUS Servers that Proxy requests among themselves towards a set of Target Realms.
 
 RADIUS Proxy Path
-: The RADIUS Server Path is a the set of RADIUS Servers that a RADIUS Request traverses from the first RADIUS Server that is contacted by the RADIUS Client to the final RADIUS Server that responds to the Request.
+: The RADIUS Proxy Path is the set of RADIUS Servers that a RADIUS Request traverses from the first RADIUS Server that is contacted by the RADIUS Client to the final RADIUS Server that responds to the Request.
 
 Proxy Loop
 : A Proxy Loop may occur when two or more RADIUS Proxies are configured such that a RADIUS Request follow a circular path through the Proxy Fabric, never reaching the Target Realm. This is a pathological and potentially damaging misconfiguration.
