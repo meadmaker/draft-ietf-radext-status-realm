@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-11T00:41:52.981112+00:00",
+  "timestamp": "2025-03-13T00:42:23.981643+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -446,6 +446,24 @@
       "updatedAt": "2025-01-24T19:14:01Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 23,
+      "id": "I_kwDONtL-Cc6tcP4K",
+      "title": "Does \"traceroute\" require Max-Hop-Count?",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/23",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "meadmaker"
+      ],
+      "labels": [],
+      "body": "Section 4.2 includes:\n\n```\nRADIUS Clients can also use the Max-Hop-Count attribute to implement \"traceroute-like\" functionality. By setting the Max-Hop-Count value to a series of increasing values, it is possible to discover the proxies which route packets to a target realm.\n```\n\nHowever, if a Status-Realm response includes a full set of Server-Information attributes, then the route could be discovered with only one request, rather than a set of requests with an increasing Max-Hop-Count.",
+      "createdAt": "2025-03-11T09:48:52Z",
+      "updatedAt": "2025-03-11T09:48:52Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -628,6 +646,32 @@
       "mergeCommit": {
         "oid": "03134587d52e30c46cad5c9d56b78a98fa267696"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDONtL-Cc6OWZQm",
+      "title": "Fix some typos and reformat the document",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/pull/24",
+      "state": "OPEN",
+      "author": "Janfred",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "* Fix some typos\r\n* Instead of stating the referenced RFCs in the header, use different format\r\n  * `{{!RFCXXXX}` for normative references on first occurence\r\n  * `{{?RFCXXXX}` for informative references on first occurence\r\n  * `{{RFCXXXX}` for reoccuring references\r\n  * `{{RFCXXXX, Section Y}}` for referencing with link to section\r\n* Change some informative references to normative references\r\n  * RFC2869 and 3579 (Message-Authenticator)\r\n  * RFC5580 (Definition of Operator-Name)\r\n  * RFC7542 (Format of NAI)\r\n* Remove section for \"Interaction with RADIUS Client MIB Modules\r\n  * Merge into the previous section (MIB Considerations)",
+      "createdAt": "2025-03-12T13:49:29Z",
+      "updatedAt": "2025-03-12T13:49:30Z",
+      "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
+      "baseRefName": "main",
+      "baseRefOid": "e91eee079e0db13e143ecb8a70cae13ea33cbcad",
+      "headRepository": "Janfred/draft-ietf-radext-status-realm",
+      "headRefName": "formatting-and-typos",
+      "headRefOid": "de402881ecde310598b026959ff95fe2bfc0aa93",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
