@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-13T00:42:23.981643+00:00",
+  "timestamp": "2025-03-16T00:45:42.180317+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -464,6 +464,39 @@
       "updatedAt": "2025-03-11T09:48:52Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 25,
+      "id": "I_kwDONtL-Cc6t30aJ",
+      "title": "Attributes used in routing decisions",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/25",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "meadmaker"
+      ],
+      "labels": [],
+      "body": "@Janfred pointed out to me that the section:\n\n> A Status-Realm-Request packets MUST include a User-Name attribute which the Target Realm for the Request. The 'user' portion of the User-Name SHOULD be ignored, if present.[\u00b6](https://meadmaker.github.io/draft-ietf-radext-status-realm/draft-ietf-radext-status-realm.html#section-5.1-3)\n\nstands in contrast to discussions we've had today about recommending both `Calling-Station-Id` and `User-Name` to be used as keys for load balancing hashing.  If these are used as hash keys, then the routing decision relies on their values; however, the document says that Status-Realm requests should contain neither of these.",
+      "createdAt": "2025-03-13T13:04:53Z",
+      "updatedAt": "2025-03-13T13:07:29Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "Janfred",
+          "authorAssociation": "NONE",
+          "body": "I think it's also related to #13 ",
+          "createdAt": "2025-03-13T13:06:34Z",
+          "updatedAt": "2025-03-13T13:06:34Z"
+        },
+        {
+          "author": "meadmaker",
+          "authorAssociation": "OWNER",
+          "body": "One use case might be to take an Access-Request packet that's failed, and convert it over to a Status-Realm request.  This would include everything that the proxy servers used originally to make their routing decisions.",
+          "createdAt": "2025-03-13T13:07:28Z",
+          "updatedAt": "2025-03-13T13:07:28Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -661,19 +694,40 @@
       "labels": [],
       "body": "* Fix some typos\r\n* Instead of stating the referenced RFCs in the header, use different format\r\n  * `{{!RFCXXXX}` for normative references on first occurence\r\n  * `{{?RFCXXXX}` for informative references on first occurence\r\n  * `{{RFCXXXX}` for reoccuring references\r\n  * `{{RFCXXXX, Section Y}}` for referencing with link to section\r\n* Change some informative references to normative references\r\n  * RFC2869 and 3579 (Message-Authenticator)\r\n  * RFC5580 (Definition of Operator-Name)\r\n  * RFC7542 (Format of NAI)\r\n* Remove section for \"Interaction with RADIUS Client MIB Modules\r\n  * Merge into the previous section (MIB Considerations)",
       "createdAt": "2025-03-12T13:49:29Z",
-      "updatedAt": "2025-03-12T13:49:30Z",
+      "updatedAt": "2025-03-13T15:00:37Z",
       "baseRepository": "meadmaker/draft-ietf-radext-status-realm",
       "baseRefName": "main",
       "baseRefOid": "e91eee079e0db13e143ecb8a70cae13ea33cbcad",
       "headRepository": "Janfred/draft-ietf-radext-status-realm",
       "headRefName": "formatting-and-typos",
-      "headRefOid": "de402881ecde310598b026959ff95fe2bfc0aa93",
+      "headRefOid": "37543f6e064906e8bc71b5f8e014b804cfa352ef",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDONtL-Cc6f3txq",
+          "commit": {
+            "abbreviatedOid": "37543f6"
+          },
+          "author": "Janfred",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-13T14:34:02Z",
+          "updatedAt": "2025-03-13T15:00:37Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "```suggestion\r\n: The RADIUS Proxy Path is the list of RADIUS Servers that a RADIUS Request traverses from the first RADIUS Server that is contacted by the RADIUS Client to the final RADIUS Server that responds to the Request.\r\n```\r\n\r\nI would argue that the RADIUS Proxy Path can be a list that is not a set (i.e. when hair pinning)\r\n\r\nEvery time a packet passes through a RADIUS proxy, this proxy should be added to the list, regardless of whether the proxy is already in the list.",
+              "createdAt": "2025-03-13T14:34:02Z",
+              "updatedAt": "2025-03-13T15:00:37Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
