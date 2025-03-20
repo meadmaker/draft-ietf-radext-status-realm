@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T00:42:05.486205+00:00",
+  "timestamp": "2025-03-20T00:41:34.667640+00:00",
   "repo": "meadmaker/draft-ietf-radext-status-realm",
   "labels": [
     {
@@ -497,6 +497,24 @@
           "updatedAt": "2025-03-13T13:07:28Z"
         }
       ]
+    },
+    {
+      "number": 26,
+      "id": "I_kwDONtL-Cc6ul5Em",
+      "title": "Provide a registration procedure",
+      "url": "https://github.com/meadmaker/draft-ietf-radext-status-realm/issues/26",
+      "state": "OPEN",
+      "author": "meadmaker",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "meadmaker"
+      ],
+      "labels": [],
+      "body": "IANA requested:\n\n> Please also provide a registration procedure for the new registry in Section 5.3. Please see Section 4 of RFC 8126:\n> \n> https://www.rfc-editor.org/rfc/rfc8126.html#section-4\n\n",
+      "createdAt": "2025-03-18T16:43:12Z",
+      "updatedAt": "2025-03-18T16:43:12Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
