@@ -179,6 +179,8 @@ A Status-Realm-Request packets MUST include a User-Name attribute which the Targ
 
 A Status-Realm-Request message MUST also include a Max-Hop-Count attribute, as defined below.
 
+Status-Realm-Request messages MUST include a RADIUS Identifier, and this identifier MUST be tracked separately from identifiers in Access-Request RADIUS messages.
+
 Status-Realm-Requests MAY include NAS-Identifier, and one of (NAS-IP-Address or NAS-IPv6-Address). These attributes are not necessary for the operation of Status-Realm, but may be useful information to a server that receives those packets.
 
 Status-Realm-Request packets MUST NOT contain authentication credentials (such as User-Password, CHAP-Password, EAP-Message) or User or NAS accounting attributes (such as Acct-Session-Id, Acct-Status-Type, Acct-Input-Octets).  When a RADIUS Server receives a Status-Realm-Request with authentication credentials, it MUST respond with a Status-Realm-Response, and that Status-Realm-Response MUST contain a Status-Realm-Response-Code Attribute with Response-Code 503, Invalid Contents, user credential included.
