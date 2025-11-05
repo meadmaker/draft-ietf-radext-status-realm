@@ -158,7 +158,7 @@ Status-Realm packets allow the sender to determine the reachability and status o
 ## Proxy Chains and Loops
 RADIUS Proxies are configured to know which next-hop RADIUS Server to use for a given Target Realm. There is no dynamic routing protocol or tree-spanning protocol in use, so Proxy Loops are a common occurence due to misconfiguration. These loops can be controlled or prevented using implementation-specific or operator-specific mechanisms, but it would be useful to have well-defined, common mechanism.
 
-The most common mechanism to date for preventing loops is by counting the number of Proxy-State attributes {{?RFC 2865, Section 5.33}} and returning an Access-Reject when the count exceeds a threshhold.  While this does prevent infinite loops, it does not detect loops nor prevent sufficiently small loops on the first trip around the loop.
+The most common mechanism to date for preventing loops is by counting the number of Proxy-State attributes ([RFC2865], Section 5.33) and returning an Access-Reject when the count exceeds a threshhold.  While this does prevent infinite loops, it does not detect loops nor prevent sufficiently small loops on the first trip around the loop.
 
 The Max-Hop-Count attribute described in this document can similarly be used to mitigate the damage caused by Proxy Loops. The Max-Hop-Count attribute is set to a small integer by the RADIUS Client or First-Hop RADIUS Server. The value is decremented each time a RADIUS message is proxied. When the Max-Hop-Count reaches zero, the request is discarded, ending the loop.
 
