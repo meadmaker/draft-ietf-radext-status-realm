@@ -436,24 +436,24 @@ If an implementation supports Status-Realm-Request and the [RFC4668] or [RFC4670
 The following table provides a guide to which attributes may be found in Status-Realm-Request and Status-Realm-Response packets, and in what quantity. Attributes other than the ones listed below SHOULD NOT be found in a Status-Realm-Request packet.
 
 ~~~~
-   Status-      Status-
-   Realm-       Realm-
+   Status-      Status-       Attribute   Attribute
+   Realm-       Realm-        Type        Name
    Request      Response
 
-   1            1              1      User-Name
-   0            0              2      User-Password
-   0            0              3      CHAP-Password
-   0-1          0              4      NAS-IP-Address (Note 1)
-   0            0+            18      Reply-Message
-   0+           0+            26      Vendor-Specific
-   0-1          0             32      NAS-Identifier (Note 1)
-   0            0             79      EAP-Message
-   1            0-1           80      Message-Authenticator
-   0-1          0             95      NAS-IPv6-Address (Note 1)
-   0            1             (TBD)   Status-Realm-Response-Code
-   1            0             (TBD)   Max-Hop-Count
-   0+           0+            (TBD)   Server-Information
-   0            0             103-121 Digest-*
+   1            1              1          User-Name
+   0            0              2          User-Password
+   0            0              3          CHAP-Password
+   0-1          0              4          NAS-IP-Address (Note 1)
+   0            0+            18          Reply-Message
+   0+           0+            26          Vendor-Specific
+   0-1          0             32          NAS-Identifier (Note 1)
+   0            0             79          EAP-Message
+   1            0-1           80          Message-Authenticator
+   0-1          0             95          NAS-IPv6-Address (Note 1)
+   0            1             (TBD)       Status-Realm-Response-Code
+   1            0             (TBD)       Max-Hop-Count
+   0+           0+            (TBD)       Server-Information
+   0            0             103-121     Digest-*
 ~~~~
 
 Note 1: Status-Realm-Request packet SHOULD contain one of (NAS-IP-Address or NAS-IPv6-Address), or NAS-Identifier, or both NAS-Identifier and one of (NAS-IP-Address or NAS-IPv6-Address).
@@ -461,6 +461,8 @@ Note 1: Status-Realm-Request packet SHOULD contain one of (NAS-IP-Address or NAS
 The following table defines the meaning of the table entries included above:
 
 ~~~~
+Entry    Meaning
+
    0     This attribute MUST NOT be present in packet.
    0+    Zero or more instances of this attribute MAY be present in
          the packet.
