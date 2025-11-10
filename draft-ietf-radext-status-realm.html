@@ -12,23 +12,22 @@
 <meta content="
        This document describes extension to the Remote Authentication Dial-In User Service (RADIUS) protocol to allow participants in a multi-hop RADIUS proxy fabric to check the status of a remote RADIUS authentication realm, gain visibility into the path that a RADIUS request will take across the RADIUS proxy fabric, and mitigate or prevent RADIUS proxy loops. 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-radext-status-realm-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
-    Python 3.12.9
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
-    lxml 5.3.0
-    platformdirs 4.3.6
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
-    wcwidth 0.2.13
+    requests 2.32.5
+    wcwidth 0.2.14
 -->
 <link href="draft-ietf-radext-status-realm.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1047,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RADIUS Status-Realm and Loop Detection</td>
-<td class="right">March 2025</td>
+<td class="right">November 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Cullen, et al.</td>
-<td class="center">Expires 4 September 2025</td>
+<td class="center">Expires 14 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-radext-status-realm-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-03" class="published">3 March 2025</time>
+<time datetime="2025-11-10" class="published">10 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-04">4 September 2025</time></dd>
+<dd class="expires"><time datetime="2026-05-14">14 May 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1130,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 14 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1858,30 +1857,32 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-15-1">The following table provides a guide to which attributes may be found in Status-Realm-Request and Status-Realm-Response packets, and in what quantity. Attributes other than the ones listed below <span class="bcp14">SHOULD NOT</span> be found in a Status-Realm-Request packet.<a href="#section-15-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-15-2">
 <pre>
-   Status-      Status-
-   Realm-       Realm-
+   Status-      Status-       Attribute   Attribute
+   Realm-       Realm-        Type        Name
    Request      Response
 
-   1            1              1      User-Name
-   0            0              2      User-Password
-   0            0              3      CHAP-Password
-   0-1          0              4      NAS-IP-Address (Note 1)
-   0            0+            18      Reply-Message
-   0+           0+            26      Vendor-Specific
-   0-1          0             32      NAS-Identifier (Note 1)
-   0            0             79      EAP-Message
-   1            0-1           80      Message-Authenticator
-   0-1          0             95      NAS-IPv6-Address (Note 1)
-   0            1             (TBD)   Status-Realm-Response-Code
-   1            0             (TBD)   Max-Hop-Count
-   0+           0+            (TBD)   Server-Information
-   0            0             103-121 Digest-*
+   1            1              1          User-Name
+   0            0              2          User-Password
+   0            0              3          CHAP-Password
+   0-1          0              4          NAS-IP-Address (Note 1)
+   0            0+            18          Reply-Message
+   0+           0+            26          Vendor-Specific
+   0-1          0             32          NAS-Identifier (Note 1)
+   0            0             79          EAP-Message
+   1            0-1           80          Message-Authenticator
+   0-1          0             95          NAS-IPv6-Address (Note 1)
+   0            1             (TBD)       Status-Realm-Response-Code
+   1            0             (TBD)       Max-Hop-Count
+   0+           0+            (TBD)       Server-Information
+   0            0             103-121     Digest-*
 </pre><a href="#section-15-2" class="pilcrow">¶</a>
 </div>
 <p id="section-15-3">Note 1: Status-Realm-Request packet <span class="bcp14">SHOULD</span> contain one of (NAS-IP-Address or NAS-IPv6-Address), or NAS-Identifier, or both NAS-Identifier and one of (NAS-IP-Address or NAS-IPv6-Address).<a href="#section-15-3" class="pilcrow">¶</a></p>
 <p id="section-15-4">The following table defines the meaning of the table entries included above:<a href="#section-15-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-15-5">
 <pre>
+Entry    Meaning
+
    0     This attribute MUST NOT be present in packet.
    0+    Zero or more instances of this attribute MAY be present in
          the packet.
